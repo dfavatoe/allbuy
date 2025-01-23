@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { ProductT } from "./types/type";
-import ProductCard from "./components/ProductCard";
 import Grid from "./components/Grid";
 import "./components/ProductCard.css";
+import Search from "./components/Search";
 
 function App() {
   const [productsList, setProductsList] = useState<ProductT[] | null>(null);
 
   const url = "https://dummyjson.com/products/";
-
-  //! Async / Await
 
   const getProducts = async () => {
     const response = await fetch(url);
@@ -31,6 +29,7 @@ function App() {
   return (
     <>
       <h1>eCom React</h1>
+      {productsList && <Search products={productsList}></Search>}
       {productsList && <Grid products={productsList}></Grid>}
     </>
   );

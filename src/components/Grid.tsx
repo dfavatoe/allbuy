@@ -13,12 +13,8 @@ function Grid({ products }: GridProps) {
     <Container className="justify-content-md-center">
       <Row className="g-1">
         {products &&
-          products.map((product, index) => {
-            return (
-              <Col>
-                <ProductCard key={product.id} product={product} />
-              </Col>
-            );
+          products.map((product) => {
+            return <ProductCard key={product.id} product={product} />;
           })}
       </Row>
     </Container>
