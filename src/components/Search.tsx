@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import {
   Button,
   Dropdown,
@@ -6,34 +6,23 @@ import {
   Form,
   InputGroup,
 } from "react-bootstrap";
-import { ProductT } from "../types/type";
 
 type SearchProps = {
-  products: ProductT[];
+  uniqueCategoriesList: string[] | null;
+  inputText: string;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-function Search({ products }: SearchProps) {
-  const [uniqueCategoriesList, setUniqueCategoriesList] = useState<
-    string[] | null
-  >(null);
-  console.log("uniqueCategoriesList :>> ", uniqueCategoriesList);
-
-  function getCategories() {
-    const categories = products.map((product) => product.category);
-    const uniqueCategories = [...new Set(categories)];
-    console.log("uniqueCategories :>> ", uniqueCategories);
-    setUniqueCategoriesList(uniqueCategories);
-  }
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
+function Search({
+  inputText,
+  handleInputChange,
+  uniqueCategoriesList,
+}: SearchProps) {
   return (
     <InputGroup className="mb-3">
       <DropdownButton
         variant="outline-secondary"
-        title="Dropdown"
+        title="Categories"
         id="input-group-dropdown-1"
       >
         {uniqueCategoriesList &&
@@ -46,12 +35,15 @@ function Search({ products }: SearchProps) {
           })}
       </DropdownButton>
       <Form.Control
-        placeholder="Recipient's username"
-        aria-label="Recipient's username"
+        type="text"
+        value={inputText}
+        placeholder="Search product..."
+        aria-label="Search product"
         aria-describedby="basic-addon2"
+        onChange={handleInputChange}
       />
       <Button variant="outline-secondary" id="button-addon2">
-        Button
+        Search
       </Button>
     </InputGroup>
   );

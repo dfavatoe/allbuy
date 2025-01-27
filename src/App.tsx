@@ -1,38 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
-import { ProductT } from "./types/type";
-import Grid from "./components/Grid";
-import "./components/ProductCard.css";
-import Search from "./components/Search";
+import Products from "./pages/Products";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
+import SearchProduct from "./pages/SearchProduct";
+import Register from "./pages/Register";
+import NavBar from "./components/NavBar";
+import AboutBlank from "./components/AboutBlank";
 
-function App() {
-  const [productsList, setProductsList] = useState<ProductT[] | null>(null);
-
-  const url = "https://dummyjson.com/products/";
-
-  const getProducts = async () => {
-    const response = await fetch(url);
-    console.log("response :>> ", response);
-    const result = await response.json();
-    console.log("result :>> ", result); //attention: result is an object
-
-    const productsArray = result.products as ProductT[]; // result.products is the array
-    console.log("productsArray :>> ", productsArray);
-
-    setProductsList(productsArray);
-  };
-
-  useEffect(() => {
-    getProducts();
-  }, []);
-
+const Root = () => {
   return (
     <>
-      <h1>eCom React</h1>
-      {productsList && <Search products={productsList}></Search>}
-      {productsList && <Grid products={productsList}></Grid>}
+      <NavBar />
+      <Outlet />
+    </>
+  )
+}
+
+
+function App() {
+  return (
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" />
+          <Route element={<Root />}>
+            <Route index element={<Products />} />
+            <Route path="/searchproduct" element={<SearchProduct />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<AboutBlank />} />
+          </Route>
+
+
+        </Routes>
+
+      </BrowserRouter>
     </>
   );
 }
+
+
 
 export default App;
