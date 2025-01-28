@@ -1,9 +1,7 @@
-import React from "react";
 import { ProductT } from "../types/type";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ProductCard.css";
 import ProductCard from "./ProductCard";
-import { Link } from "react-router";
 
 type GridProps = {
   products: ProductT[];
@@ -19,7 +17,7 @@ function Grid({ products }: GridProps) {
               <Col key={product.id}>
                 <ProductCard key={product.id} product={product} />
               </Col>
-            )
+            );
           })}
       </Row>
     </Container>

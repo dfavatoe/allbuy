@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Card, Col, Stack } from "react-bootstrap";
+import { Button, Card, Stack } from "react-bootstrap";
 import { ProductT } from "../types/type";
 import "./ProductCard.css";
 import { Link } from "react-router";
@@ -10,10 +9,8 @@ type ProductCardProps = {
 
 function ProductCard({ product }: ProductCardProps) {
   return (
-
     <Card className="zoom" style={{ width: "18rem" }}>
       <Card.Img className="image" variant="top" src={product.thumbnail} />
-      {/* <Card.Text>{product.description}</Card.Text> */}
       <Card.Body>
         <Card.Title>{product.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
@@ -23,7 +20,6 @@ function ProductCard({ product }: ProductCardProps) {
           <Link className="mb-2" to={`${product.id}`}>
             Learn more
           </Link>
-
         </Stack>
         <Button variant="warning">Add to cart</Button>
       </Card.Body>

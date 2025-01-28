@@ -26,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" />
           <Route element={<Root />}>
+            {/* Below, this is your home for now */}
             <Route index element={<Products />} />
             <Route path="/products" element={<Products />} />
             <Route
