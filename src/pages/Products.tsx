@@ -30,7 +30,7 @@ function Products() {
 
       setProductsList(productsArray);
     } catch {
-      (error: Error) => { // No internet: net::ERR_NAME_NOT_RESOLVED
+      (error: Error) => {
         console.log("error: ", error);
         throw error;
       }

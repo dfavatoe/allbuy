@@ -1,12 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React from "react";
+import { Link, NavLink } from "react-router";
 
 function NavBar() {
-    return (
-        <nav>
-            <Link to={"/"}>Home</Link> | <Link to={"/searchproduct"}>Search</Link> | <Link to={"/register"}>Register</Link>
-        </nav>
-    )
+  return (
+    <nav>
+      <NavLink to={"/"}>Home</NavLink> |{" "}
+      <NavLink to={"/products"}>Products</NavLink> |{" "}
+      <NavLink to={"/searchproduct"}>Search</NavLink> |{" "}
+      <NavLink to={"/register"}>Log In & Sign Up</NavLink>
+    </nav>
+  );
 }
 
-export default NavBar
+export default NavBar;
