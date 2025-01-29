@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import LogInOrSignUp from "./pages/LogInOrSignUp";
 import SignUp from "./pages/SignUp";
 import SingleProductPage from "./pages/SingleProductPage";
+import Home from "./pages/Home";
 
 const Root = () => {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" />
           <Route element={<Root />}>
+            <Route index element={<Home />} />
             {/* Below, this is your home for now */}
             <Route index element={<Products />} />
             <Route path="/products" element={<Products />} />

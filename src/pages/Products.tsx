@@ -9,7 +9,6 @@ function Products() {
 
   // cont[(uniqueCategoriesList, setCategoriesList)] = useState<string[] | null>;
 
-  //! Probably you won't need this anymore if you get the COMPLETE categories from the Categories' URL
   const [uniqueCategoriesList, setUniqueCategoriesList] = useState<
     string[] | null
   >(null);
@@ -50,15 +49,6 @@ function Products() {
 
     setUniqueCategoriesList(categoryArray);
   };
-
-  //! Categories' URL will throw this away/ modify this function
-  // const getCategories = () => {
-  //   const categories = productsList?.map((product) => product.category);
-  //   console.log("categories :>> ", categories);
-  //   const uniqueCategories = [...new Set(categories)];
-  //   console.log("uniqueCategories :>> ", uniqueCategories);
-  //   setUniqueCategoriesList(uniqueCategories);
-  // };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("e :>> ", e.target.value);
