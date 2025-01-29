@@ -11,7 +11,7 @@ function SingleProductPage() {
   // console.log('params :>> ', params);
   // same as above but destructured
   const { productId } = useParams();
-  console.log("productId :>> ", productId);
+  // console.log("productId :>> ", productId);
 
   const url = `https://dummyjson.com/products/${productId}`;
 
@@ -86,7 +86,7 @@ function SingleProductPage() {
                 <h6>{discount(productSpecs)} </h6>
               </Col>
 
-              <Col>
+              <Col className="mb-4">
                 <h4>{inStock(productSpecs)} </h4>
                 <h5>Description:</h5>
                 <ul>

@@ -2,7 +2,7 @@ import { createContext, ReactNode, useState } from "react";
 import { ProductT } from "../types/type";
 
 //3. Define Provider's props types
-type ProductsContextProvider = {
+type ProductsContextProviderProps = {
   children: ReactNode; //This type defines children as a React component
 };
 
@@ -12,7 +12,7 @@ type ProductsContext = {
   getProducts: () => Promise<void>;
 };
 
-//6. Define initial value of elements shared by the Context
+//6. Define initial value of contents shared by the Context
 const contextInitialValue: ProductsContext = {
   productsList: null,
   getProducts: () => {
@@ -28,18 +28,18 @@ export const ProductsContext =
 //2. Create Provider (Contains the content)
 export const ProductsContextProvider = ({
   children,
-}: ProductsContextProvider) => {
-  //4. Move useStates, variables and Functions to the Provider
+}: ProductsContextProviderProps) => {
+  console.log("%c Context Running", "color: orange");
+  //4. Move useStates and Functions to the Provider
   const [productsList, setProductsList] = useState<ProductT[] | null>(null);
 
   const url = "https://dummyjson.com/products/";
-
   const getProducts = async () => {
     try {
       const response = await fetch(url);
       // console.log("response :>> ", response);
       const result = await response.json();
-      // console.log("result :>> ", result); //attention: result is an object
+      console.log("result :>> ", result); //attention: result is an object
 
       const productsArray = result.products as ProductT[]; // result.products is the array
       console.log("productsArray :>> ", productsArray);

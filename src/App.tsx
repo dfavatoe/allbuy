@@ -9,6 +9,9 @@ import LogInOrSignUp from "./pages/LogInOrSignUp";
 import SignUp from "./pages/SignUp";
 import SingleProductPage from "./pages/SingleProductPage";
 import Home from "./pages/Home";
+import { ProductsContextProvider } from "./context/ProductsContext";
+import { AuthContextProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const Root = () => {
   return (
@@ -20,31 +23,41 @@ const Root = () => {
   );
 };
 
+//8. Use the Provider as a wrapper to the necessary routes
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" />
-          <Route element={<Root />}>
-            <Route index element={<Home />} />
-            {/* Below, this is your home for now */}
-            <Route index element={<Products />} />
-            <Route path="/products" element={<Products />} />
-            <Route
-              path="/products/:productId"
-              element={<SingleProductPage />}
-            />
+      <AuthContextProvider>
+        <ProductsContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" />
+              <Route element={<Root />}>
+                <Route index element={<Home />} />
+                <Route
+                  path="/products"
+                  element={
+                    <ProtectedRoute>
+                      <Products />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/products/:productId"
+                  element={<SingleProductPage />}
+                />
 
-            <Route path="/searchproduct" element={<SearchProduct />} />
-            <Route path="/register">
-              <Route index element={<LogInOrSignUp />} />
-              <Route path="signup" element={<SignUp />} />
-            </Route>
-            <Route path="*" element={<AboutBlank />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+                <Route path="/searchproduct" element={<SearchProduct />} />
+                <Route path="/register">
+                  <Route index element={<LogInOrSignUp />} />
+                  <Route path="signup" element={<SignUp />} />
+                </Route>
+                <Route path="*" element={<AboutBlank />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </ProductsContextProvider>
+      </AuthContextProvider>
     </>
   );
 }

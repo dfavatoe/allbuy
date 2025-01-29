@@ -1,9 +1,12 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { ProductT } from "../types/type";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import Grid from "../components/Grid";
 import Search from "../components/Search";
+import { ProductsContext } from "../context/ProductsContext";
 
 function Products() {
+  //9. use the Context to get the content needed
+  const { productsList, getProducts } = useContext(ProductsContext);
+
   const [inputText, setInputText] = useState("");
 
   const [uniqueCategoriesList, setUniqueCategoriesList] = useState<
