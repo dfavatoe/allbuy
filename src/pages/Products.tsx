@@ -1,45 +1,22 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { ProductT } from "../types/type";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import Grid from "../components/Grid";
 import Search from "../components/Search";
+import { ProductsContext } from "../context/ProductsContext";
 
 function Products() {
-  // State Hooks
-  const [productsList, setProductsList] = useState<ProductT[] | null>(null);
+  //9. use the Context to get the content needed
+  const { productsList, getProducts } = useContext(ProductsContext);
 
-  // cont[(uniqueCategoriesList, setCategoriesList)] = useState<string[] | null>;
+  const [inputText, setInputText] = useState("");
 
   const [uniqueCategoriesList, setUniqueCategoriesList] = useState<
     string[] | null
   >(null);
-  // console.log("uniqueCategoriesList :>> ", uniqueCategoriesList);
 
-  const [inputText, setInputText] = useState("");
-
-  // Fetch
   const url = "https://dummyjson.com/products/";
   const categorySlug = "category-list";
 
-  const getProducts = async () => {
-    try {
-      const response = await fetch(url);
-      // console.log("response :>> ", response);
-      const result = await response.json();
-      // console.log("result :>> ", result); //attention: result is an object
-
-      const productsArray = result.products as ProductT[]; // result.products is the array
-      console.log("productsArray :>> ", productsArray);
-
-      setProductsList(productsArray);
-    } catch {
-      (error: Error) => {
-        console.log("error: ", error);
-        throw error;
-      };
-    }
-  };
-
-  // Functions
+  // Search Functions
   const getCategoriesList = async () => {
     const response = await fetch(url + categorySlug);
     console.log("response :>> ", response);
@@ -68,10 +45,6 @@ function Products() {
   useEffect(() => {
     getCategoriesList();
   }, []);
-
-  // useEffect(() => {
-  //   getCategories();
-  // }, []);
 
   return (
     <>
