@@ -9,6 +9,7 @@ import LogInOrSignUp from "./pages/LogInOrSignUp";
 import SignUp from "./pages/SignUp";
 import SingleProductPage from "./pages/SingleProductPage";
 import Home from "./pages/Home";
+import { app } from "./config/firebaseConfig";
 
 const Root = () => {
   return (
@@ -21,6 +22,7 @@ const Root = () => {
 };
 
 function App() {
+  console.log("app :>> ", app);
   return (
     <>
       <BrowserRouter>
