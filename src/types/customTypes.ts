@@ -52,6 +52,7 @@ export interface Meta {
 }
 
 export type User = {
-  userName: string;
+  userName?: string;
+  id: string;
   email: string;
 };

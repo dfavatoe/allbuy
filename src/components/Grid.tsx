@@ -1,4 +1,4 @@
-import { ProductT } from "../types/type";
+import { ProductT } from "../types/customTypes";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ProductCard.css";
 import ProductCard from "./ProductCard";

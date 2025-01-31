@@ -1,5 +1,5 @@
 import { Button, Card, Stack } from "react-bootstrap";
-import { ProductT } from "../types/type";
+import { ProductT } from "../types/customTypes";
 import "./ProductCard.css";
 import { Link } from "react-router";
 

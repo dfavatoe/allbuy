@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { ProductT } from "../types/type";
+import { ProductT } from "../types/customTypes";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 
 function SingleProductPage() {

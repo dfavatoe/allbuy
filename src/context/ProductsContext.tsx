@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
-import { ProductT } from "../types/type";
+import { ProductT } from "../types/customTypes";
 
 //3. Define Provider's props types
 type ProductsContextProviderProps = {

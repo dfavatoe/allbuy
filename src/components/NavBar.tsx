@@ -12,15 +12,14 @@ function NavBar() {
       <NavLink to={"/"}>Home</NavLink> |{" "}
       <NavLink to={"/products"}>Products</NavLink> |{" "}
       <NavLink to={"/searchproduct"}>Search</NavLink> |{" "}
-      <NavLink to={"/register"}>Log In & Sign Up</NavLink>
+      <NavLink to={"/register"}>Register</NavLink> |{" "}
+      <NavLink to={"/register/login"}>Login</NavLink>{" "}
       {user ? (
-        <Button onClick={logout} variant="secondary">
-          Logout
+        <Button onClick={logout} variant="warning">
+          Logged In
         </Button>
       ) : (
-        <Button onClick={login} variant="warning">
-          Login
-        </Button>
+        <Button variant="secondary">Logged Out</Button>
       )}
     </nav>
   );
