@@ -29,7 +29,7 @@ export const ProductsContext =
 export const ProductsContextProvider = ({
   children,
 }: ProductsContextProviderProps) => {
-  console.log("%c Context Running", "color: orange");
+  // console.log("%c Context Running", "color: orange");
   //4. Move useStates and Functions to the Provider
   const [productsList, setProductsList] = useState<ProductT[] | null>(null);
 

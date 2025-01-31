@@ -41,8 +41,12 @@ function SingleProductPage() {
       const dateObj = new Date(dateStr);
       // console.log('dateObj :>> ', dateObj);
 
-      // const options = { day: '2-digit', month: 'short', year: 'numeric', };
-      const formattedDate = dateObj.toLocaleDateString("de-DE");
+      const options = {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      } as Intl.DateTimeFormatOptions;
+      const formattedDate = dateObj.toLocaleDateString("en-GB", options);
       // console.log('formattedDate :>> ', formattedDate);
       // console.log('formattedDate :>> ', typeof formattedDate);
       return formattedDate;
@@ -72,18 +76,18 @@ function SingleProductPage() {
       <h2>Single Product's Page</h2>
       <p>Product ID: {productId} </p>
 
-      <Container>
+      <Container style={{ width: "auto", height: "auto", textAlign: "left" }}>
         <Row>
           {productSpecs && (
             <>
               <Col>
                 <h3>{productSpecs.title}</h3>
-                <Image src={productSpecs.images[0]} rounded fluid />
                 <p>
                   {productSpecs.rating} {countStars(productSpecs.rating)}
                 </p>
                 <h4>{productSpecs.price} €</h4>
                 <h6>{discount(productSpecs)} </h6>
+                <Image src={productSpecs.images[0]} rounded fluid />
               </Col>
 
               <Col className="mb-4">
@@ -119,6 +123,7 @@ function SingleProductPage() {
           )}
         </Row>
         <Row>
+          <hr />
           <h4>Top Reviews:</h4>
         </Row>
         <Row>

@@ -12,7 +12,8 @@ import Home from "./pages/Home";
 import { ProductsContextProvider } from "./context/ProductsContext";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { app, auth } from "./config/firebaseConfig";
+import { app, auth, db } from "./config/firebaseConfig";
+import Reviews from "./pages/Reviews";
 
 const Root = () => {
   return (
@@ -26,8 +27,9 @@ const Root = () => {
 
 //8. Use the Provider as a wrapper to the necessary routes
 function App() {
-  console.log("app :>> ", app);
-  console.log("auth :>> ", auth);
+  // console.log("app :>> ", app);
+  // console.log("auth :>> ", auth);
+  console.log("db :>> ", db);
   return (
     <>
       <AuthContextProvider>
@@ -55,6 +57,7 @@ function App() {
                   <Route index element={<Register />} />
                   <Route path="login" element={<Login />} />
                 </Route>
+                <Route path="reviews" element={<Reviews />}></Route>
                 <Route path="*" element={<AboutBlank />} />
               </Route>
             </Routes>

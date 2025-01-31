@@ -41,8 +41,8 @@ export const AuthContext = createContext<AuthContextType>(contextInitialValue);
 
 //2. Create Provider (Contains the content)
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
-  console.log("children :>> ", children);
-  console.log("auth :>> ", auth);
+  // console.log("children :>> ", children);
+  // console.log("auth :>> ", auth);
 
   //4. Move useStates and Functions to the Provider
   const [user, setUser] = useState<User | null>(null);
