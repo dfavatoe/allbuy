@@ -31,25 +31,25 @@ function Reviews() {
   const [reviewStars, setReviewStars] = useState<string>("");
 
   // Not used anymore after getReviewsServerLive
-  const getReviews = async () => {
-    const reviewsRef = collection(db, "review");
-    const queryByDate = query(reviewsRef, orderBy("date", "desc")); //order the query by date, use limit(n) to limit the number of results
-    const querySnapshot = await getDocs(queryByDate);
-    const reviewsArray: ReviewType[] = [];
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-      const review: ReviewType = {
-        text: doc.data().text,
-        date: doc.data().date,
-        author: doc.data().author,
-        rating: doc.data().rating,
-        id: doc.id,
-      };
-      reviewsArray.push(review); //important to insert the reviews from the database in the reviewsArray
-      setReviews(reviewsArray);
-    });
-    console.log("reviewsArray :>> ", reviewsArray);
-  };
+  // const getReviews = async () => {
+  //   const reviewsRef = collection(db, "review");
+  //   const queryByDate = query(reviewsRef, orderBy("date", "desc")); //order the query by date, use limit(n) to limit the number of results
+  //   const querySnapshot = await getDocs(queryByDate);
+  //   const reviewsArray: ReviewType[] = [];
+  //   querySnapshot.forEach((doc) => {
+  //     console.log(doc.id, " => ", doc.data());
+  //     const review: ReviewType = {
+  //       text: doc.data().text,
+  //       date: doc.data().date,
+  //       author: doc.data().author,
+  //       rating: doc.data().rating,
+  //       id: doc.id,
+  //     };
+  //     reviewsArray.push(review); //important to insert the reviews from the database in the reviewsArray
+  //     setReviews(reviewsArray);
+  //   });
+  //   console.log("reviewsArray :>> ", reviewsArray);
+  // };
 
   const formatDate = (seconds: number) => {
     const options = {

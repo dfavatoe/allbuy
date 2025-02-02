@@ -14,6 +14,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { app, auth, db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
+import TestCustomHook from "./pages/TestCustomHook";
 
 const Root = () => {
   return (
@@ -58,6 +59,7 @@ function App() {
                   <Route path="login" element={<Login />} />
                 </Route>
                 <Route path="reviews" element={<Reviews />}></Route>
+                <Route path="customhook" element={<TestCustomHook />}></Route>
                 <Route path="*" element={<AboutBlank />} />
               </Route>
             </Routes>
