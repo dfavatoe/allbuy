@@ -115,7 +115,7 @@ function SingleProductPage() {
                 <ul>
                   <li>Width: {productSpecs.dimensions.width} cm</li>
                   <li>Height: {productSpecs.dimensions.height} cm</li>
-                  <li>Height: {productSpecs.dimensions.depth} cm</li>
+                  <li>Depth: {productSpecs.dimensions.depth} cm</li>
                 </ul>
                 <Button variant="warning">Add to cart</Button>
               </Col>
