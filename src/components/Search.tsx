@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import {
   Button,
   Dropdown,
@@ -11,24 +11,30 @@ type SearchProps = {
   uniqueCategoriesList: string[] | null;
   inputText: string;
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleDropdownChange: (eventKey: string | null) => void;
+  selectedCategory: string | null;
 };
 
 function Search({
   inputText,
   handleInputChange,
   uniqueCategoriesList,
+  handleDropdownChange,
+  selectedCategory,
 }: SearchProps) {
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className="justify-content-center mb-3">
       <DropdownButton
         variant="outline-secondary"
-        title="Categories"
+        title={selectedCategory}
         id="input-group-dropdown-1"
+        onSelect={handleDropdownChange}
       >
+        <Dropdown.Item eventKey="All">All</Dropdown.Item>
         {uniqueCategoriesList &&
           uniqueCategoriesList.map((category, i) => {
             return (
-              <Dropdown.Item key={i} href="#">
+              <Dropdown.Item key={i} eventKey={category}>
                 {category}
               </Dropdown.Item>
             );

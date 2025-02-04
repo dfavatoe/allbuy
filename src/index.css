@@ -24,10 +24,11 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  /* display: block; */
+  /* place-items: end; */
+  min-width: 375px; /*iphone 12 mini */
   min-height: 100vh;
+  background-color: white;
 }
 
 h1 {

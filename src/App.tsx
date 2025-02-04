@@ -1,11 +1,10 @@
 import "./App.css";
 import Products from "./pages/Products";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
-import SearchProduct from "./pages/SearchProduct";
 import NavBar from "./components/NavBar";
 import AboutBlank from "./pages/AboutBlank";
 import Footer from "./components/Footer";
-import Register from "./pages/Register";
+import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import SingleProductPage from "./pages/SingleProductPage";
 import Home from "./pages/Home";
@@ -15,6 +14,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { app, auth, db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
 import TestCustomHook from "./pages/TestCustomHook";
+import ProductsTest from "./pages/ProductsTest";
+import ProductsUrl from "./pages/ProductsUrl";
 
 const Root = () => {
   return (
@@ -40,25 +41,23 @@ function App() {
               <Route path="/" />
               <Route element={<Root />}>
                 <Route index element={<Home />} />
-                <Route
-                  path="/products"
-                  element={
-                    <ProtectedRoute>
-                      <Products />
-                    </ProtectedRoute>
-                  }
-                />
+                <Route path="/products" element={<Products />} />
                 <Route
                   path="/products/:productId"
                   element={<SingleProductPage />}
                 />
-
-                <Route path="/searchproduct" element={<SearchProduct />} />
-                <Route path="/register">
-                  <Route index element={<Register />} />
-                  <Route path="login" element={<Login />} />
-                </Route>
-                <Route path="reviews" element={<Reviews />}></Route>
+                <Route path="productstest" element={<ProductsTest />} />
+                <Route path="productsurl" element={<ProductsUrl />} />
+                <Route path="signup" element={<SignUp />} />
+                <Route path="login" element={<Login />} />
+                <Route
+                  path="reviews"
+                  element={
+                    <ProtectedRoute>
+                      <Reviews />
+                    </ProtectedRoute>
+                  }
+                ></Route>
                 <Route path="customhook" element={<TestCustomHook />}></Route>
                 <Route path="*" element={<AboutBlank />} />
               </Route>

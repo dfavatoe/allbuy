@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import { AuthContext } from "../context/AuthContext";
+import "../style/Home.css";
 
 function Home() {
   //use context to get the content
@@ -13,7 +14,7 @@ function Home() {
       {user ? (
         <h6>Hello {user.userName}!</h6>
       ) : (
-        <h6>Loggin to view all our features.</h6>
+        <h6>Login to use all our features.</h6>
       )}
       {productsList ? (
         <h3>eCom offers a variety of {productsList?.length} Products</h3>

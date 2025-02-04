@@ -26,6 +26,7 @@ function Login() {
   return (
     <>
       <h1>Login</h1>
+      <p>Welcome back! Sign in to access your account and continue shopping.</p>
       <Form onSubmit={handleSubmitRegister}>
         <Form.Group className="mb-3">
           <Form.Label>Email address</Form.Label>
