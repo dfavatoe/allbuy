@@ -146,7 +146,7 @@ function ProductsUrl() {
           selectedCategory={selectedCategory}
         ></Search>
       }
-      {filteredProductsFinal && <Grid products={filteredProductsFinal}></Grid>}
+      {filteredProducts && <Grid products={filteredProducts}></Grid>}
     </>
   );
 }

@@ -14,22 +14,6 @@ function NavBar() {
   return (
     <>
       <nav>
-        <NavLink to={"/"}>Home</NavLink> |{" "}
-        <NavLink to={"/products"}>Products</NavLink> |{" "}
-        <NavLink to={"/searchproduct"}>Search</NavLink> |{" "}
-        <NavLink to={"/register"}>Register</NavLink> |{" "}
-        <NavLink to={"/register/login"}>Login</NavLink> |{" "}
-        <NavLink to={"/reviews"}>Reviews</NavLink>{" "}
-        {user ? (
-          <Button onClick={logout} variant="warning">
-            Log Out
-          </Button>
-        ) : (
-          <Button variant="secondary">Logged Out</Button>
-        )}
-      </nav>
-
-      <nav>
         <Navbar expand="lg" className="bg-body-tertiary">
           <Container fluid>
             <Navbar.Brand href="/">allBuy</Navbar.Brand>
