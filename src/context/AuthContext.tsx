@@ -78,8 +78,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
           throw new Error("User information not found");
         }
         //But because we want it not null we use the if condition
-
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;

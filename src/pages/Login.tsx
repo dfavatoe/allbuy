@@ -1,13 +1,15 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 function Login() {
-  const { login } = useContext(AuthContext);
+  const { user, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigateTo = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -26,7 +28,15 @@ function Login() {
   return (
     <>
       <h1>Login</h1>
-      <p>Welcome back! Sign in to access your account and continue shopping.</p>
+      {user ? (
+        <div>
+          <h3>You are logged in. 🔌</h3>
+          <p>Welcome back!</p>
+        </div>
+      ) : (
+        <p>Sign in to access your account and continue shopping.</p>
+      )}
+
       <Form onSubmit={handleSubmitRegister}>
         <Form.Group className="mb-3">
           <Form.Label>Email address</Form.Label>
@@ -51,12 +61,32 @@ function Login() {
             placeholder="Password"
           />
         </Form.Group>
-        <Button className="mb-4" variant="warning" type="submit">
-          Login
-        </Button>
+        {user ? (
+          <>
+            <p>
+              Click on the Products button to continue your shopping experience.
+            </p>
+            <Button
+              onClick={() => {
+                navigateTo("/products");
+              }}
+              type="button"
+              className="mb-4"
+              variant="warning"
+            >
+              Products
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button className="mb-4" variant="warning" type="submit">
+              Login
+            </Button>
+            <div>Still not registered?</div>
+            <Link to={"/signup"}>Sign Up</Link>
+          </>
+        )}
       </Form>
-      <div>Still not registered?</div>
-      <Link to={"/register"}>Sign Up</Link>
     </>
   );
 }

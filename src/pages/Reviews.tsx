@@ -27,7 +27,6 @@ function Reviews() {
 
   const [reviewText, setReviewText] = useState<string>(" ");
   const [reviewRating, setReviewRating] = useState<number>(0);
-
   const [reviewStars, setReviewStars] = useState<string>("");
 
   // Not used anymore after getReviewsServerLive

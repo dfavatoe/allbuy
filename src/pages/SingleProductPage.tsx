@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ProductT } from "../types/customTypes";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import Reviews from "./Reviews";
 
 function SingleProductPage() {
   //State Hooks
@@ -148,6 +149,7 @@ function SingleProductPage() {
             })}
         </Row>
       </Container>
+      <Reviews />
     </div>
   );
 }
