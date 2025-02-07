@@ -3,6 +3,8 @@ import { useParams } from "react-router";
 import { ProductT } from "../types/customTypes";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Reviews from "./Reviews";
+import ProductReviews from "./ProductReviews";
+import { Timestamp } from "firebase/firestore";
 
 function SingleProductPage() {
   //State Hooks
@@ -12,7 +14,10 @@ function SingleProductPage() {
   // console.log('params :>> ', params);
   // same as above but destructured
   const { productId } = useParams();
-  // console.log("productId :>> ", productId);
+  console.log("productId :>> ", productId);
+
+  const productIdNumb = parseInt(productId!); //"!" forces the variable to be string, like casting
+  console.log("productIdNumb :>> ", productIdNumb);
 
   const url = `https://dummyjson.com/products/${productId}`;
 
@@ -149,7 +154,13 @@ function SingleProductPage() {
             })}
         </Row>
       </Container>
-      <Reviews />
+      <ProductReviews
+        pid={productIdNumb}
+        author={""}
+        text={""}
+        id={""}
+        date={new Timestamp(0, 0)}
+      />
     </div>
   );
 }

@@ -6,49 +6,30 @@ import {
   orderBy,
   query,
   Timestamp,
+  where,
 } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
 import { Button, Card, FloatingLabel, Form, Stack } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-type ReviewType = {
+type ProductReviewsType = {
   author: string;
   text: string;
   date: Timestamp;
   rating?: number;
-  id: string;
+  id: string; //doc id
+  pid: number; //product's id
 };
 
-function Reviews() {
+function ProductReviews({ pid }: ProductReviewsType) {
   const { user } = useContext(AuthContext);
 
-  const [reviews, setReviews] = useState<ReviewType[] | null>(null);
+  const [reviews, setReviews] = useState<ProductReviewsType[] | null>(null);
 
   const [reviewText, setReviewText] = useState<string>(" ");
   const [reviewRating, setReviewRating] = useState<number>(0);
   const [reviewStars, setReviewStars] = useState<string>("");
-
-  // Not used anymore after getReviewsServerLive
-  // const getReviews = async () => {
-  //   const reviewsRef = collection(db, "review");
-  //   const queryByDate = query(reviewsRef, orderBy("date", "desc")); //order the query by date, use limit(n) to limit the number of results
-  //   const querySnapshot = await getDocs(queryByDate);
-  //   const reviewsArray: ReviewType[] = [];
-  //   querySnapshot.forEach((doc) => {
-  //     console.log(doc.id, " => ", doc.data());
-  //     const review: ReviewType = {
-  //       text: doc.data().text,
-  //       date: doc.data().date,
-  //       author: doc.data().author,
-  //       rating: doc.data().rating,
-  //       id: doc.id,
-  //     };
-  //     reviewsArray.push(review); //important to insert the reviews from the database in the reviewsArray
-  //     setReviews(reviewsArray);
-  //   });
-  //   console.log("reviewsArray :>> ", reviewsArray);
-  // };
 
   const formatDate = (seconds: number) => {
     const options = {
@@ -102,12 +83,14 @@ function Reviews() {
     const newReview = {
       text: reviewText,
       date: new Date(),
-      author: user.email, //! connect to the AuthContext to obtain the review's user.
+      author: user.email, // connect to the AuthContext to obtain the review's user.
       rating: reviewRating,
+      pid: pid,
     };
+    console.log("productIdNumb :>> ", pid);
 
     //add the new Review object to the collection
-    const docRef = await addDoc(collection(db, "review"), newReview);
+    const docRef = await addDoc(collection(db, "productsreview"), newReview);
     if (!docRef) {
       throw new Error("Something went wrong!");
     }
@@ -119,36 +102,39 @@ function Reviews() {
   // https://firebase.google.com/docs/firestore/query-data/listen#listen_to_multiple_documents_in_a_collection
   // this is not an asyn method. No need to declare as such
   const getReviewsServerLive = () => {
+    console.log("pid :>> ", pid);
     const queryByDate = query(
-      collection(db, "review"),
+      collection(db, "productsreview"),
+      where("pid", "==", pid),
       orderBy("date", "desc")
     );
+
     const unsubscribe = onSnapshot(queryByDate, (querySnapshot) => {
-      const reviewsArray: ReviewType[] = [];
+      const reviewsArray: ProductReviewsType[] = [];
 
       querySnapshot.forEach((doc) => {
-        const review: ReviewType = {
+        const review: ProductReviewsType = {
           text: doc.data().text,
           date: doc.data().date,
           author: doc.data().author,
           rating: doc.data().rating,
           id: doc.id,
+          pid: doc.data().pid,
         };
-
         reviewsArray.push(review);
         setReviews(reviewsArray);
       });
+      console.log("reviewsArray :>> ", reviewsArray);
     });
   };
 
   useEffect(() => {
-    // getReviews();
     getReviewsServerLive();
   }, []);
 
   return (
     <>
-      <h1>Reviews</h1>
+      <h1>Product Reviews</h1>
       <Stack gap={3}>
         {reviews &&
           reviews.map((review) => {
@@ -160,7 +146,10 @@ function Reviews() {
                 <Card.Body>
                   <Card.Title>{review.author}</Card.Title>
                   <Card.Subtitle className="mb-2">
-                    {review.rating}
+                    ProductID: {review.pid}
+                  </Card.Subtitle>
+                  <Card.Subtitle className="mb-2">
+                    Rating: {review.rating}
                   </Card.Subtitle>
                   <Card.Subtitle className="mb-2 text-muted">
                     {formatDate(review.date.seconds)}
@@ -200,4 +189,4 @@ function Reviews() {
   );
 }
 
-export default Reviews;
+export default ProductReviews;
