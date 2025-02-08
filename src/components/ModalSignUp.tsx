@@ -1,11 +1,15 @@
 import { Link, useNavigate } from "react-router";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Container } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
-function SignUp() {
+type ModalSignUpProps = {
+  showSignUp: boolean;
+  handleSignUpClose: () => void;
+};
+
+function ModalSignUp({ showSignUp, handleSignUpClose }: ModalSignUpProps) {
   const { user, register } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,9 +31,11 @@ function SignUp() {
   };
 
   return (
-    <>
-      <Container>
-        <h1>Sign Up</h1>
+    <Modal show={showSignUp} onHide={handleSignUpClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Sign Up</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         {user ? (
           <div>
             <h3>
@@ -42,7 +48,6 @@ function SignUp() {
             shopping experience!
           </p>
         )}
-
         <Form onSubmit={handleSubmitRegister}>
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
@@ -70,7 +75,8 @@ function SignUp() {
           {user ? (
             <>
               <p>
-                Click on the Products button to start your shopping experience.
+                Close this window or click on the Products button to continue
+                your shopping experience.
               </p>
               <Button
                 onClick={() => {
@@ -93,9 +99,14 @@ function SignUp() {
             </>
           )}
         </Form>
-      </Container>
-    </>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="warning" onClick={handleSignUpClose}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
-export default SignUp;
+export default ModalSignUp;

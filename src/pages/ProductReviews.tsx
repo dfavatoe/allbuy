@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -9,9 +10,17 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
-import { Button, Card, FloatingLabel, Form, Stack } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Container,
+  FloatingLabel,
+  Form,
+  Stack,
+} from "react-bootstrap";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import ModalLogin from "../components/ModalLogin";
 
 type ProductReviewsType = {
   author: string;
@@ -30,6 +39,11 @@ function ProductReviews({ pid }: ProductReviewsType) {
   const [reviewText, setReviewText] = useState<string>(" ");
   const [reviewRating, setReviewRating] = useState<number>(0);
   const [reviewStars, setReviewStars] = useState<string>("");
+
+  //Modal Login Hooks and functions
+  const [showLogin, setLoginShow] = useState(false);
+  const handleLoginShow = () => setLoginShow(true);
+  const handleLoginClose = () => setLoginShow(false);
 
   const formatDate = (seconds: number) => {
     const options = {
@@ -100,13 +114,14 @@ function ProductReviews({ pid }: ProductReviewsType) {
   };
 
   // https://firebase.google.com/docs/firestore/query-data/listen#listen_to_multiple_documents_in_a_collection
-  // this is not an asyn method. No need to declare as such
+  // this is not an async method. No need to declare as such
   const getReviewsServerLive = () => {
     console.log("pid :>> ", pid);
     const queryByDate = query(
       collection(db, "productsreview"),
       where("pid", "==", pid),
-      orderBy("date", "desc")
+      orderBy("date", "desc"),
+      limit(5)
     );
 
     const unsubscribe = onSnapshot(queryByDate, (querySnapshot) => {
@@ -134,57 +149,87 @@ function ProductReviews({ pid }: ProductReviewsType) {
 
   return (
     <>
-      <h1>Product Reviews</h1>
-      <Stack gap={3}>
-        {reviews &&
-          reviews.map((review) => {
-            return (
-              <Card
-                key={review.id}
-                style={{ width: "auto", height: "auto", textAlign: "left" }}
-              >
-                <Card.Body>
-                  <Card.Title>{review.author}</Card.Title>
-                  <Card.Subtitle className="mb-2">
-                    ProductID: {review.pid}
-                  </Card.Subtitle>
-                  <Card.Subtitle className="mb-2">
-                    Rating: {review.rating}
-                  </Card.Subtitle>
-                  <Card.Subtitle className="mb-2 text-muted">
-                    {formatDate(review.date.seconds)}
-                  </Card.Subtitle>
-                  <Card.Text>{review.text}</Card.Text>
-                </Card.Body>
-              </Card>
-            );
-          })}
+      <Container>
+        <h1>Product's Reviews</h1>
+        <Stack gap={3}>
+          {reviews &&
+            reviews.map((review) => {
+              return (
+                <Card
+                  key={review.id}
+                  style={{ width: "auto", height: "auto", textAlign: "left" }}
+                >
+                  <Card.Body>
+                    <Card.Title>{review.author}</Card.Title>
+                    <Card.Subtitle className="mb-2">
+                      ProductID: {review.pid}
+                    </Card.Subtitle>
+                    <Card.Subtitle className="mb-2">
+                      Rating: {review.rating}
+                    </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted">
+                      {formatDate(review.date.seconds)}
+                    </Card.Subtitle>
+                    <Card.Text>{review.text}</Card.Text>
+                  </Card.Body>
+                </Card>
+              );
+            })}
 
-        <Form onSubmit={handleReviewSubmit}>
-          <FloatingLabel
-            className="mb-3"
-            controlId="floatingTextarea"
-            label="Add your review..."
-          >
-            <Form.Control
-              as="textarea"
-              placeholder="Leave a comment here"
-              style={{ height: "60px" }}
-              onChange={haldleReviewTextChange}
-            />
-          </FloatingLabel>
-          <Form.Label>Rating: {reviewStars} </Form.Label>
-          <Form.Range
-            className="mb-4"
-            min="1"
-            max="5"
-            onChange={haldleReviewRatingChange}
-          ></Form.Range>
-          <Button type="submit" className="mb-4" variant="warning">
-            Submit
-          </Button>
-        </Form>
-      </Stack>
+          {user ? (
+            <p>Please, write below your product's review.</p>
+          ) : (
+            <div>
+              <p>
+                Please, to write a review, click here first to{" "}
+                <button
+                  onClick={handleLoginShow}
+                  style={{
+                    background: "none",
+                    color: "blue",
+                    border: "none",
+                    padding: 0,
+                    outline: "none",
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  log in
+                </button>
+              </p>
+            </div>
+          )}
+
+          <ModalLogin
+            handleLoginClose={handleLoginClose}
+            showLogin={showLogin}
+          />
+
+          <Form onSubmit={handleReviewSubmit}>
+            <FloatingLabel
+              className="mb-3"
+              controlId="floatingTextarea"
+              label="Add your review..."
+            >
+              <Form.Control
+                as="textarea"
+                placeholder="Leave a comment here"
+                style={{ height: "100px" }}
+                onChange={haldleReviewTextChange}
+              />
+            </FloatingLabel>
+            <Form.Label>Rating: {reviewStars} </Form.Label>
+            <Form.Range
+              className="mb-4 d-block"
+              min="1"
+              max="5"
+              onChange={haldleReviewRatingChange}
+            ></Form.Range>
+            <Button type="submit" className="mb-4" variant="warning">
+              Submit
+            </Button>
+          </Form>
+        </Stack>
+      </Container>
     </>
   );
 }

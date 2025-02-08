@@ -1,14 +1,24 @@
 import { Link, useNavigate } from "react-router";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Container } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
+import ModalSignUp from "./ModalSignUp";
 
-function SignUp() {
-  const { user, register } = useContext(AuthContext);
+type ModalLoginProps = {
+  showLogin: boolean;
+  handleLoginClose: () => void;
+};
+
+function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
+  const { user, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  //Modal Hooks and functions
+  const [showSignUp, setSignUpShow] = useState(false);
+  const handleSignUpShow = () => setSignUpShow(true);
+  const handleSignUpClose = () => setSignUpShow(false);
 
   const navigateTo = useNavigate();
 
@@ -23,26 +33,23 @@ function SignUp() {
   const handleSubmitRegister = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // console.log("email, password :>> ", email, password);
-    register(email, password);
+    login(email, password);
   };
 
   return (
-    <>
-      <Container>
-        <h1>Sign Up</h1>
+    <Modal show={showLogin} onHide={handleLoginClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Login</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         {user ? (
           <div>
-            <h3>
-              Congratulations, you have succesfully created an account!!! 🙌
-            </h3>
+            <h3>You are logged in. 🔌</h3>
+            <p>Welcome back!</p>
           </div>
         ) : (
-          <p>
-            Join us today for exclusive deals, fast checkout, and a seamless
-            shopping experience!
-          </p>
+          <p>Sign in to access your account and continue shopping.</p>
         )}
-
         <Form onSubmit={handleSubmitRegister}>
           <Form.Group className="mb-3">
             <Form.Label>Email address</Form.Label>
@@ -69,33 +76,39 @@ function SignUp() {
           </Form.Group>
           {user ? (
             <>
-              <p>
-                Click on the Products button to start your shopping experience.
-              </p>
-              <Button
-                onClick={() => {
-                  navigateTo("/products");
-                }}
-                type="button"
-                className="mb-4"
-                variant="warning"
-              >
-                Products
-              </Button>
+              <p>Close this window to continue your shopping experience.</p>
             </>
           ) : (
             <>
-              <Button type="submit" className="mb-4" variant="warning">
-                Register
+              <Button className="mb-4" variant="warning" type="submit">
+                Login
               </Button>
-              <div>Do you already have an account? Click here to login.</div>
-              <Link to={"/login"}>Login</Link>
+
+              <Button
+                className="mb-4"
+                variant="primary"
+                onClick={handleSignUpShow}
+              >
+                Sign Up
+              </Button>
+              <ModalSignUp
+                handleSignUpClose={handleSignUpClose}
+                showSignUp={showSignUp}
+              />
+
+              <div>Still not registered?</div>
+              <Link to={"/signup"}>Sign Up</Link>
             </>
           )}
         </Form>
-      </Container>
-    </>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="warning" onClick={handleLoginClose}>
+          Close
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
-export default SignUp;
+export default ModalLogin;
