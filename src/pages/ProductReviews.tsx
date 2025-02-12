@@ -1,7 +1,6 @@
 import {
   addDoc,
   collection,
-  getDocs,
   limit,
   onSnapshot,
   orderBy,
@@ -26,7 +25,7 @@ type ProductReviewsType = {
   author: string;
   text: string;
   date: Timestamp;
-  rating?: number;
+  rating: number | null;
   id: string; //doc id
   pid: number; //product's id
 };
@@ -44,6 +43,17 @@ function ProductReviews({ pid }: ProductReviewsType) {
   const [showLogin, setLoginShow] = useState(false);
   const handleLoginShow = () => setLoginShow(true);
   const handleLoginClose = () => setLoginShow(false);
+
+  const countStars = (productRating: number | null) => {
+    if (productRating) {
+      const fullStars = "★";
+      const emptyStars = "☆";
+      const starInt = Math.floor(productRating);
+      const totalStars =
+        fullStars.repeat(starInt) + emptyStars.repeat(5 - starInt);
+      return totalStars;
+    }
+  };
 
   const formatDate = (seconds: number) => {
     const options = {
@@ -124,7 +134,7 @@ function ProductReviews({ pid }: ProductReviewsType) {
       limit(5)
     );
 
-    const unsubscribe = onSnapshot(queryByDate, (querySnapshot) => {
+    onSnapshot(queryByDate, (querySnapshot) => {
       const reviewsArray: ProductReviewsType[] = [];
 
       querySnapshot.forEach((doc) => {
@@ -149,27 +159,33 @@ function ProductReviews({ pid }: ProductReviewsType) {
 
   return (
     <>
-      <Container>
-        <h1>Product's Reviews</h1>
-        <Stack gap={3}>
+      <Container style={{ width: "auto", height: "auto", textAlign: "left" }}>
+        <Stack>
           {reviews &&
             reviews.map((review) => {
               return (
                 <Card
                   key={review.id}
-                  style={{ width: "auto", height: "auto", textAlign: "left" }}
+                  style={{
+                    width: "auto",
+                    height: "auto",
+                    textAlign: "left",
+                    // boxShadow: "rgba(162, 162, 162, 0.2) 0px 8px 24px",
+                    boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+                  }}
                 >
                   <Card.Body>
                     <Card.Title>{review.author}</Card.Title>
-                    <Card.Subtitle className="mb-2">
+                    {/* <Card.Subtitle className="mb-2">
                       ProductID: {review.pid}
-                    </Card.Subtitle>
+                    </Card.Subtitle> */}
                     <Card.Subtitle className="mb-2">
-                      Rating: {review.rating}
+                      {countStars(review.rating)}
                     </Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">
                       {formatDate(review.date.seconds)}
                     </Card.Subtitle>
+                    <hr></hr>
                     <Card.Text>{review.text}</Card.Text>
                   </Card.Body>
                 </Card>
@@ -219,6 +235,7 @@ function ProductReviews({ pid }: ProductReviewsType) {
             </FloatingLabel>
             <Form.Label>Rating: {reviewStars} </Form.Label>
             <Form.Range
+              style={{ maxWidth: "250px" }}
               className="mb-4 d-block"
               min="1"
               max="5"

@@ -28,7 +28,7 @@ function SignUp() {
 
   return (
     <>
-      <Container>
+      <Container className="justify-content-center">
         <h1>Sign Up</h1>
         {user ? (
           <div>
@@ -44,7 +44,7 @@ function SignUp() {
         )}
 
         <Form onSubmit={handleSubmitRegister}>
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-3 justify-content-center">
             <Form.Label>Email address</Form.Label>
             <Form.Control
               type="email"

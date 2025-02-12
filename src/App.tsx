@@ -1,4 +1,4 @@
-import "./App.css";
+import "../src/style/App.css";
 import Products from "./pages/Products";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import NavBar from "./components/NavBar";
@@ -11,18 +11,23 @@ import Home from "./pages/Home";
 import { ProductsContextProvider } from "./context/ProductsContext";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { app, auth, db } from "./config/firebaseConfig";
+import { db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
 import TestCustomHook from "./pages/TestCustomHook";
 import ProductsTest from "./pages/ProductsTest";
 import ProductsUrl from "./pages/ProductsUrl";
+import UserAccount from "./pages/UserAccount";
 
 const Root = () => {
   return (
     <>
-      <NavBar />
-      <Outlet />
-      <Footer />
+      <div className="content-container">
+        <NavBar />
+        <Outlet />
+      </div>
+      <div className="footer-container">
+        <Footer />
+      </div>
     </>
   );
 };
@@ -58,6 +63,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 ></Route>
+                <Route path="account" element={<UserAccount />} />
                 <Route path="customhook" element={<TestCustomHook />}></Route>
                 <Route path="*" element={<AboutBlank />} />
               </Route>

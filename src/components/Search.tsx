@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent } from "react";
+import { ChangeEvent, FormEvent, MouseEvent } from "react";
 import {
   Button,
   Dropdown,
@@ -13,6 +13,7 @@ type SearchProps = {
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleDropdownChange: (eventKey: string | null) => void;
   selectedCategory: string | null;
+  handleProductSearch: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
 function Search({
@@ -21,6 +22,7 @@ function Search({
   uniqueCategoriesList,
   handleDropdownChange,
   selectedCategory,
+  handleProductSearch,
 }: SearchProps) {
   return (
     <InputGroup className="justify-content-center mb-3">
@@ -48,7 +50,11 @@ function Search({
         aria-describedby="basic-addon2"
         onChange={handleInputChange}
       />
-      <Button variant="outline-secondary" id="button-addon2">
+      <Button
+        onClick={handleProductSearch}
+        variant="outline-secondary"
+        id="button-addon2"
+      >
         Search
       </Button>
     </InputGroup>

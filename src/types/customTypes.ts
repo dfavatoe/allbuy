@@ -51,7 +51,7 @@ export interface Meta {
   qrCode: string;
 }
 
-export type User = {
+export type UserT = {
   userName?: string;
   id: string;
   email: string;

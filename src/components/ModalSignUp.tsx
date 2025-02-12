@@ -101,7 +101,7 @@ function ModalSignUp({ showSignUp, handleSignUpClose }: ModalSignUpProps) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="warning" onClick={handleSignUpClose}>
+        <Button variant="secondary" onClick={handleSignUpClose}>
           Close
         </Button>
       </Modal.Footer>

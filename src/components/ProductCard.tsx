@@ -1,6 +1,6 @@
 import { Button, Card, Stack } from "react-bootstrap";
 import { ProductT } from "../types/customTypes";
-import "./ProductCard.css";
+import "../style/ProductCard.css";
 import { Link } from "react-router";
 
 type ProductCardProps = {

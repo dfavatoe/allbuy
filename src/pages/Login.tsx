@@ -69,20 +69,25 @@ function Login() {
                 Click on the Products button to continue your shopping
                 experience.
               </p>
+
               <Button
                 onClick={() => {
                   navigateTo("/products");
                 }}
                 type="button"
-                className="mb-4"
+                className="mb-2"
                 variant="warning"
               >
                 Products
               </Button>
+              <p className="mb-0">or</p>
+              <Button onClick={() => navigateTo(-1)} variant="link">
+                or click here to go to the previous page.
+              </Button>
             </>
           ) : (
             <>
-              <Button className="mb-4" variant="warning" type="submit">
+              <Button className="mb-2" variant="warning" type="submit">
                 Login
               </Button>
               <div>Still not registered?</div>

@@ -3,10 +3,13 @@ import Grid from "../components/Grid";
 import Search from "../components/Search";
 import { ProductsContext } from "../context/ProductsContext";
 import { ProductT } from "../types/customTypes";
+import { Container, Spinner } from "react-bootstrap";
 
 function Products() {
   //9. use the Context to get the content needed
   const [productsList, setProductsList] = useState<ProductT[] | null>(null);
+
+  const [loading, setLoading] = useState(true);
 
   const [inputText, setInputText] = useState("");
 
@@ -29,6 +32,7 @@ function Products() {
       console.log("productsArray :>> ", productsArray);
 
       setProductsList(productsArray);
+      setLoading(false);
     } catch {
       (error: Error) => {
         console.log("error: ", error);
@@ -70,15 +74,27 @@ function Products() {
 
   return (
     <>
-      <h1>eCom React</h1>
-      {
-        <Search
-          uniqueCategoriesList={uniqueCategoriesList}
-          inputText={inputText}
-          handleInputChange={handleInputChange}
-        ></Search>
-      }
-      {filteredProducts && <Grid products={filteredProducts}></Grid>}
+      <Container>
+        <h1>eCom React</h1>
+        {
+          <Search
+            uniqueCategoriesList={uniqueCategoriesList}
+            inputText={inputText}
+            handleInputChange={handleInputChange}
+          ></Search>
+        }
+        <>
+          {loading ? (
+            <div>
+              <Spinner animation="border" variant="warning" />
+              <p>Loading...</p>
+            </div>
+          ) : (
+            console.log("Data loaded!")
+          )}
+          {filteredProducts && <Grid products={filteredProducts}></Grid>}
+        </>
+      </Container>
     </>
   );
 }

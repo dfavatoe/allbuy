@@ -84,26 +84,21 @@ function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
                 Login
               </Button>
 
-              <Button
-                className="mb-4"
-                variant="primary"
-                onClick={handleSignUpShow}
-              >
+              <div className="mb-2">Still not registered?</div>
+
+              <Button className="m-0" variant="link" onClick={handleSignUpShow}>
                 Sign Up
               </Button>
               <ModalSignUp
                 handleSignUpClose={handleSignUpClose}
                 showSignUp={showSignUp}
               />
-
-              <div>Still not registered?</div>
-              <Link to={"/signup"}>Sign Up</Link>
             </>
           )}
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="warning" onClick={handleLoginClose}>
+        <Button variant="secondary" onClick={handleLoginClose}>
           Close
         </Button>
       </Modal.Footer>

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { ProductT } from "../types/customTypes";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
-import Reviews from "./Reviews";
 import ProductReviews from "./ProductReviews";
 import { Timestamp } from "firebase/firestore";
 
@@ -10,9 +9,15 @@ function SingleProductPage() {
   //State Hooks
   const [productSpecs, setProductSpecs] = useState<ProductT | null>(null);
 
-  // const params = useParams()
-  // console.log('params :>> ', params);
-  // same as above but destructured
+  // UseRef Hook used to scroll the Page to the Reviews
+  const topReviewsRef = useRef<HTMLHeadingElement | null>(null);
+  const scrollCallback = () => {
+    if (topReviewsRef.current) {
+      topReviewsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // useParams extracts the ID from the URL
   const { productId } = useParams();
   console.log("productId :>> ", productId);
 
@@ -61,7 +66,11 @@ function SingleProductPage() {
 
   const inStock = (productSpecs: ProductT | null) => {
     if (productSpecs) {
-      return productSpecs.stock ? "In stock" : "Not available";
+      return productSpecs.stock ? (
+        <h4 style={{ color: "#138808" }}>In stock</h4>
+      ) : (
+        <h4 style={{ color: "#dc143c" }}>Not available</h4>
+      );
     }
   };
 
@@ -86,18 +95,22 @@ function SingleProductPage() {
         <Row>
           {productSpecs && (
             <>
-              <Col>
+              <Col sm="6">
                 <h3>{productSpecs.title}</h3>
                 <p>
                   {productSpecs.rating} {countStars(productSpecs.rating)}
+                  <Button onClick={() => scrollCallback()} variant="link">
+                    See the reviews
+                  </Button>
                 </p>
+
                 <h4>{productSpecs.price} €</h4>
                 <h6>{discount(productSpecs)} </h6>
                 <Image src={productSpecs.images[0]} rounded fluid />
               </Col>
 
-              <Col className="mb-4">
-                <h4>{inStock(productSpecs)} </h4>
+              <Col className="mb-4" sm="6">
+                {inStock(productSpecs)}
                 <h5>Description:</h5>
                 <ul>
                   <li>
@@ -127,40 +140,18 @@ function SingleProductPage() {
               </Col>
             </>
           )}
-        </Row>
-        <Row>
           <hr />
-          <h4>Top Reviews:</h4>
         </Row>
-        <Row>
-          {productSpecs &&
-            productSpecs.reviews.map((review) => {
-              return (
-                <>
-                  <Row>
-                    <h6>{review.reviewerName}</h6>
-                  </Row>
-                  <Row>
-                    <p>
-                      {review.rating} {countStars(review.rating)}
-                    </p>
-                    <p>{formatDate(review.date)}</p>
-                  </Row>
-                  <Row>
-                    <p>{review.comment}</p>
-                  </Row>
-                </>
-              );
-            })}
-        </Row>
+        <h4 ref={topReviewsRef}>Top Reviews:</h4>
+        <ProductReviews
+          pid={productIdNumb}
+          author={""}
+          text={""}
+          rating={null}
+          id={""}
+          date={new Timestamp(0, 0)}
+        />
       </Container>
-      <ProductReviews
-        pid={productIdNumb}
-        author={""}
-        text={""}
-        id={""}
-        date={new Timestamp(0, 0)}
-      />
     </div>
   );
 }

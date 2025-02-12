@@ -1,12 +1,11 @@
-/* body {
-  background: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 0vh;
+body {
+  background: none;
+  display: block;
+  height: 100vh;
   margin: 0;
   padding: 0 !important;
-} */
+  padding-bottom: 0;
+}
 
 h1 {
   font-size: 7vmin;

@@ -1,9 +1,9 @@
-import React from 'react'
+import "../style/Footer.css";
 
 function Footer() {
-    return (
-        <div>eCom Copyright © 2025</div>
-    )
+  return (
+    <footer style={{ backgroundColor: "#eee" }}>allBuy Copyright © 2025</footer>
+  );
 }
 
-export default Footer
+export default Footer;

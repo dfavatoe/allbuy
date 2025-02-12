@@ -1,10 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { User } from "../types/customTypes";
+import { UserT } from "../types/customTypes";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  User,
 } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
 
@@ -15,16 +16,19 @@ type AuthContextProviderProps = {
 
 //5. Define the Context's type
 type AuthContextType = {
-  user: User | null;
+  user: UserT | null;
+  actualUser: User | null;
   logout: () => void;
   register: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
+  // checkUserStatus: () => void;
 };
 
 //6. Define initial value of contents shared by the Context
 
 const contextInitialValue: AuthContextType = {
   user: null,
+  actualUser: null,
   register: () => {
     throw new Error("Context not initialised");
   },
@@ -34,6 +38,9 @@ const contextInitialValue: AuthContextType = {
   logout: () => {
     throw new Error("Context not initialised");
   },
+  // checkUserStatus: () => {
+  //   throw new Error("Context not initialised");
+  // },
 };
 
 // 1. Create context
@@ -45,7 +52,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   // console.log("auth :>> ", auth);
 
   //4. Move useStates and Functions to the Provider
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserT | null>(null);
+
+  const [actualUser, setActualUser] = useState<User | null>(null);
 
   const register = async (email: string, password: string) => {
     console.log("email, password Auth :>>", email, password);
@@ -82,15 +91,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("errorMessage :>> ", errorMessage);
+        console.log("errorCode/errorMessage :>> ", errorCode, errorMessage);
       });
   };
 
   const checkUserStatus = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const email = user.email; //Try to create a object for email and id??
+        const email = user.email; //Try to create an object for email and id??
         const id = user.uid;
+        const currUser = auth.currentUser;
+        setActualUser(currUser);
         if (email && id) {
           setUser({ email, id });
         } else {
@@ -113,7 +124,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       })
       .catch((error) => {
         // An error happened.
-        console.log("Problems signing out user");
+        console.log("Problems signing out user: ", error.message);
       });
   };
 
@@ -122,7 +133,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, logout, register, actualUser }}>
       {children}
     </AuthContext.Provider>
   );

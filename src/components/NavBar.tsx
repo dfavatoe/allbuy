@@ -1,4 +1,3 @@
-import { NavLink } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Button from "react-bootstrap/Button";
@@ -25,11 +24,12 @@ function NavBar() {
                 navbarScroll
               >
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="products">Products</Nav.Link>
-                <Nav.Link href="reviews">Reviews</Nav.Link>
+                <Nav.Link href="/products">Products</Nav.Link>
+                <Nav.Link href="/reviews">Reviews</Nav.Link>
+                <Nav.Link href="/account">Account</Nav.Link>
                 <NavDropdown title="Register">
-                  <NavDropdown.Item href="login">Login</NavDropdown.Item>
-                  <NavDropdown.Item href="signup">Sign up</NavDropdown.Item>
+                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  <NavDropdown.Item href="/signup">Sign up</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
               <div className="justify-content-end">
@@ -38,7 +38,7 @@ function NavBar() {
                     Log Out
                   </Button>
                 ) : (
-                  <Nav.Link href="login">Hello, login!</Nav.Link>
+                  <Nav.Link href="/login">Hello, log in!</Nav.Link>
                 )}
               </div>
             </Navbar.Collapse>

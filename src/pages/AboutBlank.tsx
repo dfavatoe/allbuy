@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Button, Container, Image } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
@@ -29,13 +28,17 @@ function AboutBlank() {
         width="500"
       ></img> */}
       <Button
-        className="my-4"
+        className="mt-4 mb-2"
         variant="warning"
         onClick={() => {
           navigateTo("/");
         }}
       >
         Return to Home
+      </Button>
+      <p className="mb-0">or</p>
+      <Button onClick={() => navigateTo(-1)} variant="link">
+        click here to go to the previous page.
       </Button>
     </>
   );
