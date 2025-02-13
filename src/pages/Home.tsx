@@ -9,7 +9,7 @@ function Home() {
   //use context to get the content
   const { productsList } = useContext(ProductsContext);
   // console.log("productsList :>> ", productsList);
-  const { user } = useContext(AuthContext);
+  const { user, profileUser } = useContext(AuthContext);
 
   const navigateTo = useNavigate();
   return (
@@ -29,8 +29,8 @@ function Home() {
         </Container>
       </Container>
 
-      {user ? (
-        <h6>Hello {user.userName}!</h6>
+      {user && profileUser ? (
+        <h6>Hello {profileUser.displayName}!</h6>
       ) : (
         <h6>Login for the full experience.</h6>
       )}

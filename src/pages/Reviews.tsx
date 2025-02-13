@@ -102,7 +102,7 @@ function Reviews() {
     const newReview = {
       text: reviewText,
       date: new Date(),
-      author: user.email, //! connect to the AuthContext to obtain the review's user.
+      author: user.email, // connect to the AuthContext to obtain the review's user.
       rating: reviewRating,
     };
 

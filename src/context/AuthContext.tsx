@@ -17,7 +17,7 @@ type AuthContextProviderProps = {
 //5. Define the Context's type
 type AuthContextType = {
   user: UserT | null;
-  actualUser: User | null;
+  profileUser: User | null;
   logout: () => void;
   register: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
@@ -28,7 +28,7 @@ type AuthContextType = {
 
 const contextInitialValue: AuthContextType = {
   user: null,
-  actualUser: null,
+  profileUser: null,
   register: () => {
     throw new Error("Context not initialised");
   },
@@ -54,7 +54,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //4. Move useStates and Functions to the Provider
   const [user, setUser] = useState<UserT | null>(null);
 
-  const [actualUser, setActualUser] = useState<User | null>(null);
+  const [profileUser, setProfileUser] = useState<User | null>(null);
 
   const register = async (email: string, password: string) => {
     console.log("email, password Auth :>>", email, password);
@@ -101,7 +101,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         const email = user.email; //Try to create an object for email and id??
         const id = user.uid;
         const currUser = auth.currentUser;
-        setActualUser(currUser);
+        setProfileUser(currUser);
         if (email && id) {
           setUser({ email, id });
         } else {
@@ -133,7 +133,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register, actualUser }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, register, profileUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

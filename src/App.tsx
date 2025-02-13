@@ -14,7 +14,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
 import TestCustomHook from "./pages/TestCustomHook";
-import ProductsTest from "./pages/ProductsTest";
 import ProductsUrl from "./pages/ProductsUrl";
 import UserAccount from "./pages/UserAccount";
 
@@ -51,7 +50,6 @@ function App() {
                   path="/products/:productId"
                   element={<SingleProductPage />}
                 />
-                <Route path="productstest" element={<ProductsTest />} />
                 <Route path="productsurl" element={<ProductsUrl />} />
                 <Route path="signup" element={<SignUp />} />
                 <Route path="login" element={<Login />} />

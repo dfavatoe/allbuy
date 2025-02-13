@@ -4,6 +4,8 @@ import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Container } from "react-bootstrap";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { db } from "../config/firebaseConfig";
 
 function SignUp() {
   const { user, register } = useContext(AuthContext);
@@ -20,11 +22,36 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
-  const handleSubmitRegister = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log("email, password :>> ", email, password);
+    // console.log("email, password :>> ", email, password)
+
     register(email, password);
   };
+
+  const createUserDocument = async () => {
+    if (user) {
+      const docRef = doc(db, "users", user.id);
+      await setDoc(docRef, {
+        email: user.email,
+        phoneNumber: "",
+        photo: null,
+        userName: null,
+        verifiedEmail: false,
+        userId: user.id,
+      });
+
+      // const docRef = await addDoc(collection(db, "users"), newUser);
+      // if (!docRef) {
+      //   throw new Error("Something went wrong!");
+      // }
+      // if (docRef) {
+      //   console.log("Message sent succesfully. Document ID:  ", docRef.id);
+      // }
+    }
+  };
+
+  createUserDocument();
 
   return (
     <>

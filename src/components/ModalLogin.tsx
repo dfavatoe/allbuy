@@ -11,7 +11,7 @@ type ModalLoginProps = {
 };
 
 function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
-  const { user, login } = useContext(AuthContext);
+  const { user, profileUser, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -42,10 +42,10 @@ function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
         <Modal.Title>Login</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {user ? (
+        {user && profileUser ? (
           <div>
             <h3>You are logged in. 🔌</h3>
-            <p>Welcome back!</p>
+            <p>Hi, {profileUser.displayName}! Welcome!</p>
           </div>
         ) : (
           <p>Sign in to access your account and continue shopping.</p>
