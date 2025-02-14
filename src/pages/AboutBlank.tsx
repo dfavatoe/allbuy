@@ -22,11 +22,6 @@ function AboutBlank() {
       <Container className="w-75 d-flex justify-content-center">
         <Image src="../src/assets/404_picture.jpg" fluid />
       </Container>
-      {/* <img
-        src="../src/assets/404_picture.jpg"
-        alt="Girl lost in the desert"
-        width="500"
-      ></img> */}
       <Button
         className="mt-4 mb-2"
         variant="warning"

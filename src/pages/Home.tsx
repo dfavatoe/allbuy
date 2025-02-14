@@ -9,13 +9,20 @@ function Home() {
   //use context to get the content
   const { productsList } = useContext(ProductsContext);
   // console.log("productsList :>> ", productsList);
-  const { user, profileUser } = useContext(AuthContext);
+  const { user, userData } = useContext(AuthContext);
 
   const navigateTo = useNavigate();
   return (
     <>
       <Container id="video-container">
-        <video id="video" width="100%" height="auto" autoPlay muted>
+        <video
+          className="mb-2"
+          id="video"
+          width="100%"
+          height="auto"
+          autoPlay
+          muted
+        >
           <source
             src="../src/assets/electronics_video.mp4"
             type="video/mp4"
@@ -29,8 +36,8 @@ function Home() {
         </Container>
       </Container>
 
-      {user && profileUser ? (
-        <h6>Hello {profileUser.displayName}!</h6>
+      {user && userData ? (
+        <h6>Hello {userData.userName}!</h6>
       ) : (
         <h6>Login for the full experience.</h6>
       )}

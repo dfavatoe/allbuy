@@ -88,8 +88,8 @@ function SingleProductPage() {
 
   return (
     <div>
-      <h2>Single Product's Page</h2>
-      <p>Product ID: {productId} </p>
+      <h1>allBuy Products</h1>
+      {/* <p>Product ID: {productId} </p> */}
 
       <Container style={{ width: "auto", height: "auto", textAlign: "left" }}>
         <Row>

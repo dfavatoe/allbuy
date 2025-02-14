@@ -7,7 +7,8 @@ import {
   signOut,
   User,
 } from "firebase/auth";
-import { auth } from "../config/firebaseConfig";
+import { auth, db } from "../config/firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 //3. Define Provider's props types
 type AuthContextProviderProps = {
@@ -17,18 +18,29 @@ type AuthContextProviderProps = {
 //5. Define the Context's type
 type AuthContextType = {
   user: UserT | null;
-  profileUser: User | null;
+  userData: UserData | null;
   logout: () => void;
   register: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
+  getUserData: () => Promise<void>;
+
   // checkUserStatus: () => void;
 };
-
+type UserData = {
+  city?: string | null;
+  phoneNumber?: string | null;
+  photo?: string | null;
+  profession?: string | null;
+  userName?: string | null;
+  email?: string | null;
+  zip?: string | null;
+  userId?: string | null;
+};
 //6. Define initial value of contents shared by the Context
 
 const contextInitialValue: AuthContextType = {
   user: null,
-  profileUser: null,
+  userData: null,
   register: () => {
     throw new Error("Context not initialised");
   },
@@ -36,6 +48,9 @@ const contextInitialValue: AuthContextType = {
     throw new Error("Context not initialised");
   },
   logout: () => {
+    throw new Error("Context not initialised");
+  },
+  getUserData: () => {
     throw new Error("Context not initialised");
   },
   // checkUserStatus: () => {
@@ -54,7 +69,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   //4. Move useStates and Functions to the Provider
   const [user, setUser] = useState<UserT | null>(null);
 
-  const [profileUser, setProfileUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   const register = async (email: string, password: string) => {
     console.log("email, password Auth :>>", email, password);
@@ -83,6 +98,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         const id = user.uid;
         if (email && id) {
           setUser({ email, id });
+          getUserData();
         } else {
           throw new Error("User information not found");
         }
@@ -100,9 +116,9 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (user) {
         const email = user.email; //Try to create an object for email and id??
         const id = user.uid;
-        const currUser = auth.currentUser;
-        setProfileUser(currUser);
         if (email && id) {
+          console.log("email :>> ", email);
+
           setUser({ email, id });
         } else {
           throw new Error("User information not found");
@@ -113,6 +129,23 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         console.log("%c user is signed out :>> ", "color: red");
       }
     });
+  };
+
+  //get user data from Firestore
+  const getUserData = async () => {
+    //Get data from Firestore
+    if (user) {
+      console.log("user :>> ", user);
+      const docRef = doc(db, "users", user.id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        // console.log("Document data:", docSnap.data());
+        setUserData(docSnap.data());
+      } else {
+        // docSnap.data(); will be undefined in this case
+        console.log("No such document!");
+      }
+    }
   };
 
   const logout = () => {
@@ -132,9 +165,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     checkUserStatus();
   }, []);
 
+  useEffect(() => {
+    user && getUserData(); //if you have a user, get the user's data
+  }, [user]);
+
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, profileUser }}
+      value={{ user, login, logout, register, userData, getUserData }}
     >
       {children}
     </AuthContext.Provider>

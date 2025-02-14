@@ -6,7 +6,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Container } from "react-bootstrap";
 
 function Login() {
-  const { user, profileUser, login } = useContext(AuthContext);
+  const { user, userData, login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,10 +30,10 @@ function Login() {
     <>
       <Container>
         <h1>Login</h1>
-        {user && profileUser ? (
+        {user && userData ? (
           <div>
             <h3>You are logged in. 🔌</h3>
-            <p>Hi, {profileUser.displayName}! Welcome!</p>
+            <p>Hi, {userData.userName}! Welcome!</p>
           </div>
         ) : (
           <p>Log in to access your account and continue shopping.</p>

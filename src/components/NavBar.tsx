@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { MutableRefObject, useContext, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -27,12 +27,12 @@ function NavBar() {
                 <Nav.Link href="/products">Products</Nav.Link>
                 <Nav.Link href="/reviews">Reviews</Nav.Link>
                 <Nav.Link href="/account">Account</Nav.Link>
-                <NavDropdown title="Register">
+                <NavDropdown title="Register" id="navbarScrollingDropdown">
                   <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                   <NavDropdown.Item href="/signup">Sign up</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <div className="justify-content-end">
+              <Container className="justify-content-end">
                 {user ? (
                   <Button onClick={logout} variant="none">
                     Log Out
@@ -40,7 +40,7 @@ function NavBar() {
                 ) : (
                   <Nav.Link href="/login">Hello, log in!</Nav.Link>
                 )}
-              </div>
+              </Container>
             </Navbar.Collapse>
           </Container>
         </Navbar>

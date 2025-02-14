@@ -1,5 +1,4 @@
 import "../src/style/App.css";
-import Products from "./pages/Products";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import NavBar from "./components/NavBar";
 import AboutBlank from "./pages/AboutBlank";
@@ -14,8 +13,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
 import TestCustomHook from "./pages/TestCustomHook";
-import ProductsUrl from "./pages/ProductsUrl";
 import UserAccount from "./pages/UserAccount";
+import Products from "./pages/Products";
 
 const Root = () => {
   return (
@@ -50,7 +49,6 @@ function App() {
                   path="/products/:productId"
                   element={<SingleProductPage />}
                 />
-                <Route path="productsurl" element={<ProductsUrl />} />
                 <Route path="signup" element={<SignUp />} />
                 <Route path="login" element={<Login />} />
                 <Route
