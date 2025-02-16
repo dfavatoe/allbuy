@@ -11,7 +11,7 @@ function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="zoom" style={{ width: "18rem" }}>
       <Card.Img className="image" variant="top" src={product.thumbnail} />
-      <Card.Body>
+      <Card.Body className="d-flex flex-column">
         <Card.Title>{product.title}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           {product.price} €
@@ -21,7 +21,13 @@ function ProductCard({ product }: ProductCardProps) {
             Learn more
           </Link>
         </Stack>
-        <Button variant="warning">Add to cart</Button>
+        <Button
+          className="mt-auto mx-auto"
+          style={{ maxWidth: "130px" }}
+          variant="warning"
+        >
+          Add to cart
+        </Button>
       </Card.Body>
     </Card>
   );

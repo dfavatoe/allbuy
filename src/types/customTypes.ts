@@ -1,3 +1,5 @@
+import { Dispatch } from "react";
+
 export interface Root {
   products: ProductT[];
   total: number;
@@ -55,4 +57,20 @@ export type UserT = {
   userName?: string;
   id: string;
   email: string;
+};
+
+export type ModalLoginProps = {
+  showLogin: boolean;
+  handleLoginClose: () => void;
+};
+
+export type ModalSignUpProps = {
+  showSignUp: boolean;
+  handleSignUpClose: () => void;
+};
+
+export type ModalAlertProps = {
+  showAlert: boolean;
+  setShowAlert: Dispatch<React.SetStateAction<boolean>>;
+  alertText: string;
 };

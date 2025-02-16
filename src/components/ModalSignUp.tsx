@@ -3,11 +3,9 @@ import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Button, Modal } from "react-bootstrap";
-
-type ModalSignUpProps = {
-  showSignUp: boolean;
-  handleSignUpClose: () => void;
-};
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../config/firebaseConfig";
+import { ModalSignUpProps } from "../types/customTypes";
 
 function ModalSignUp({ showSignUp, handleSignUpClose }: ModalSignUpProps) {
   const { user, register } = useContext(AuthContext);
@@ -29,6 +27,22 @@ function ModalSignUp({ showSignUp, handleSignUpClose }: ModalSignUpProps) {
     // console.log("email, password :>> ", email, password);
     register(email, password);
   };
+
+  const createUserDocument = async () => {
+    if (user) {
+      const docRef = doc(db, "users", user.id);
+      await setDoc(docRef, {
+        email: user.email,
+        phoneNumber: "",
+        photo: null,
+        userName: null,
+        verifiedEmail: false,
+        userId: user.id,
+      });
+    }
+  };
+
+  createUserDocument();
 
   return (
     <Modal show={showSignUp} onHide={handleSignUpClose}>

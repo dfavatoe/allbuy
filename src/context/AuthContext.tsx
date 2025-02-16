@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, Dispatch, ReactNode, useEffect, useState } from "react";
 import { UserT } from "../types/customTypes";
 import {
   createUserWithEmailAndPassword,
@@ -18,11 +18,16 @@ type AuthContextProviderProps = {
 //5. Define the Context's type
 type AuthContextType = {
   user: UserT | null;
+  profileUser: User | null;
   userData: UserData | null;
   logout: () => void;
   register: (email: string, password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   getUserData: () => Promise<void>;
+  loading: boolean;
+  showAlert: boolean;
+  setShowAlert: Dispatch<React.SetStateAction<boolean>>;
+  alertText: string;
 
   // checkUserStatus: () => void;
 };
@@ -40,6 +45,7 @@ type UserData = {
 
 const contextInitialValue: AuthContextType = {
   user: null,
+  profileUser: null,
   userData: null,
   register: () => {
     throw new Error("Context not initialised");
@@ -53,9 +59,10 @@ const contextInitialValue: AuthContextType = {
   getUserData: () => {
     throw new Error("Context not initialised");
   },
-  // checkUserStatus: () => {
-  //   throw new Error("Context not initialised");
-  // },
+  loading: true,
+  showAlert: false,
+  alertText: "",
+  setShowAlert: () => false,
 };
 
 // 1. Create context
@@ -68,8 +75,13 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   //4. Move useStates and Functions to the Provider
   const [user, setUser] = useState<UserT | null>(null);
-
+  const [profileUser, setProfileUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  //Modal Alert Hooks
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertText, setAlertText] = useState("");
 
   const register = async (email: string, password: string) => {
     console.log("email, password Auth :>>", email, password);
@@ -84,6 +96,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     } catch (err) {
       const error = err as Error;
       console.log("error message :>> ", error.message);
+      setAlertText(error.message);
+      setShowAlert(true);
     }
   };
 
@@ -108,6 +122,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log("errorCode/errorMessage :>> ", errorCode, errorMessage);
+        setAlertText(errorMessage);
+        setShowAlert(true);
       });
   };
 
@@ -116,6 +132,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (user) {
         const email = user.email; //Try to create an object for email and id??
         const id = user.uid;
+        const currUser = auth.currentUser;
+        setProfileUser(currUser);
         if (email && id) {
           console.log("email :>> ", email);
 
@@ -141,6 +159,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       if (docSnap.exists()) {
         // console.log("Document data:", docSnap.data());
         setUserData(docSnap.data());
+        setLoading(false);
       } else {
         // docSnap.data(); will be undefined in this case
         console.log("No such document!");
@@ -171,7 +190,19 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, userData, getUserData }}
+      value={{
+        user,
+        profileUser,
+        login,
+        logout,
+        register,
+        userData,
+        getUserData,
+        loading,
+        showAlert,
+        setShowAlert,
+        alertText,
+      }}
     >
       {children}
     </AuthContext.Provider>

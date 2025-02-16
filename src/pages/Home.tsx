@@ -3,7 +3,7 @@ import { ProductsContext } from "../context/ProductsContext";
 import { AuthContext } from "../context/AuthContext";
 import "../style/Home.css";
 import { Button, Container } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function Home() {
   //use context to get the content
@@ -12,6 +12,7 @@ function Home() {
   const { user, userData } = useContext(AuthContext);
 
   const navigateTo = useNavigate();
+
   return (
     <>
       <Container id="video-container">
@@ -35,27 +36,25 @@ function Home() {
           </h1>
         </Container>
       </Container>
-
-      {user && userData ? (
-        <h6>Hello {userData.userName}!</h6>
-      ) : (
-        <h6>Login for the full experience.</h6>
-      )}
-      {productsList ? (
-        <h3>eCom offers a variety of {productsList?.length} Products</h3>
-      ) : (
+      <Container className="d-block">
         <h2>Welcome to allBuy</h2>
-      )}
-
-      <Button
-        className="my-4"
-        variant="warning"
-        onClick={() => {
-          navigateTo("products");
-        }}
-      >
-        Search Products
-      </Button>
+        {user && userData ? (
+          <h6>Hello {userData.userName}!</h6>
+        ) : (
+          <h6>Sign in for the full experience.</h6>
+        )}
+        <Link to={"/login"}>Login</Link>
+        <br />
+        <Button
+          className="mt-4"
+          variant="warning"
+          onClick={() => {
+            navigateTo("products");
+          }}
+        >
+          Search Products
+        </Button>
+      </Container>
     </>
   );
 }

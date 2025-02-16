@@ -1,15 +1,33 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  MouseEvent,
+  MouseEventHandler,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Grid from "../components/Grid";
 import Search from "../components/Search";
+import { ProductsContext } from "../context/ProductsContext";
 import { ProductT } from "../types/customTypes";
 import { Container, Spinner } from "react-bootstrap";
 import "../style/Products.css";
 import useFetch from "../hooks/useFetch";
 
-function Products() {
+function ProductsTest() {
+  //9. use the Context to get the content needed
   const [productsList, setProductsList] = useState<ProductT[] | null>(null);
 
   const [loading, setLoading] = useState(true);
+
+  // const [searchedProducts, setSearchedProducts] = useState<ProductT[] | null>(
+  //   null
+  // );
+
+  const [productsByCategoryList, setProductsByCategoryList] = useState<
+    ProductT[] | null
+  >(null);
 
   const [inputText, setInputText] = useState("");
 
@@ -24,16 +42,22 @@ function Products() {
   const url = "https://dummyjson.com/products/";
   const categorySlug = "category-list";
 
-  //Fetches the first 30 products displayed in the page
+  const url1 = `https://dummyjson.com/products/search?q=${inputText}`;
+
+  // const { data: productsList } = useFetch<ProductT[]>(
+  //   "https://dummyjson.com/products/"
+  // );
+  console.log("productsList :>> ", productsList);
+
   const getProducts = async () => {
     try {
       const response = await fetch(url);
-      // console.log("response :>> ", response);
+      console.log("response :>> ", response);
       const result = await response.json();
-      // console.log("result :>> ", result); //attention: result is an object
+      console.log("result :>> ", result); //attention: result is an object
 
       const searchArray = result.products as ProductT[]; // result.products is the array
-      // console.log("productsArray :>> ", searchArray);
+      console.log("productsArray :>> ", searchArray);
 
       setProductsList(searchArray);
       setLoading(false);
@@ -51,7 +75,28 @@ function Products() {
   );
   // console.log("searchedProducts :>> ", searchedProducts);
 
+  // const getSearchedProducts = async () => {
+  //   try {
+  //     const response = await fetch(url1);
+  //     console.log("response :>> ", response);
+  //     const result = await response.json();
+  //     console.log("result :>> ", result); //attention: result is an object
+
+  //     const searchArray = result.products as ProductT[]; // result.products is the array
+  //     console.log("productsArray :>> ", searchArray);
+
+  //     setSearchedProducts(searchArray);
+  //     // setLoading(false);
+  //   } catch {
+  //     (error: Error) => {
+  //       console.log("error: ", error);
+  //       throw error;
+  //     };
+  //   }
+  // };
+
   // Fetches Categories list for Category's button
+  //?We cannot use useFetch, because the result is already an array and not an object.
   const getCategoriesList = async () => {
     const response = await fetch(url + categorySlug);
     console.log("response :>> ", response);
@@ -61,6 +106,8 @@ function Products() {
 
     setUniqueCategoriesList(categoryArray);
   };
+
+  // const { data: productsList } = useFetch<ProductT>(url2);
 
   // Fetches Products by Category
   const url2 = `https://dummyjson.com/products/category/${selectedCategory}`;
@@ -73,7 +120,8 @@ function Products() {
       console.log("result :>> ", result); //attention: result is an object
 
       const searchArray = result.products as ProductT[]; // result.products is the array
-      // console.log("productsByCategoryArray :>> ", searchArray);
+      console.log("productsByCategoryArray :>> ", searchArray);
+
       setProductsList(searchArray);
     } catch {
       (error: Error) => {
@@ -83,32 +131,22 @@ function Products() {
     }
   };
 
-  //sets value from search input
+  //set value from search input
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log("e :>> ", e.target.value);
     // console.log("working");
     setInputText(e.target.value);
   };
 
-  //sets value from selected Category in the dropdown menu
   const handleDropdownChange = (eventKey: string | null) => {
     // console.log("working");
     console.log("DropDown Selected Category :>> ", eventKey);
     setSelectedCategory(eventKey);
   };
 
-  //sets the selected category on the horizontal scroll bar menu
-  const handleSelectedCategory = (e: MouseEvent<HTMLButtonElement>) => {
-    // console.log("Selected Event ", e);
-    const target = e.target as HTMLButtonElement;
-    console.log("Selected value :>> ", target.value);
-    setSelectedCategory(target.value);
-  };
-
-  //sets the products array filtering the searched word inside the selected category (combined)
-  const handleProductSearch = () => {
+  const handleProductSearch = (e: MouseEvent<HTMLButtonElement>) => {
     if (searchedProducts) {
-      const combinedSearchAndCategory = searchedProducts?.filter((product) => {
+      const combinedSearchAndCategory = searchedProducts.filter((product) => {
         return (
           selectedCategory === product.category || selectedCategory === "All"
         );
@@ -119,6 +157,21 @@ function Products() {
     }
   };
 
+  const handleSelectedCategory = (e: MouseEvent<HTMLButtonElement>) => {
+    console.log("Selected Event ", e);
+    const target = e.target as HTMLButtonElement;
+    console.log("Selected value :>> ", target.value);
+    setSelectedCategory(target.value);
+  };
+
+  // const filteredProductsFinal = productsList?.filter((product) => {
+  //   return selectedCategory === product.category || selectedCategory === "All";
+
+  const filteredProducts = productsList?.filter((product) => {
+    return product.title.toLowerCase().includes(inputText.toLowerCase());
+  });
+  console.log("filteredProducts :>> ", filteredProducts);
+
   useEffect(() => {
     getCategoriesList();
   }, []);
@@ -127,13 +180,16 @@ function Products() {
     getProducts();
   }, []);
 
+  // useEffect(() => {
+  //   getSearchedProducts();
+  // }, [url1]);
+
   useEffect(() => {
     getProductsByCategory();
   }, [url2]);
 
   return (
     <>
-      {/* Categories Scroll Menu */}
       <div className="scrollmenu justify-content-center">
         {uniqueCategoriesList &&
           uniqueCategoriesList.map((category, i) => {
@@ -182,4 +238,4 @@ function Products() {
   );
 }
 
-export default Products;
+export default ProductsTest;

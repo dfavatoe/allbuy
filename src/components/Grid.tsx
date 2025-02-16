@@ -9,12 +9,12 @@ type GridProps = {
 
 function Grid({ products }: GridProps) {
   return (
-    <Container className="justify-content-md-center">
+    <Container className="justify-content-center">
       <Row className="g-1">
         {products &&
           products.map((product) => {
             return (
-              <Col key={product.id}>
+              <Col className="d-flex justify-content-center" key={product.id}>
                 <ProductCard key={product.id} product={product} />
               </Col>
             );

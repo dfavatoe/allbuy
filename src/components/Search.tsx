@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, MouseEvent } from "react";
 import {
   Button,
+  Container,
   Dropdown,
   DropdownButton,
   Form,
@@ -25,39 +26,41 @@ function Search({
   handleProductSearch,
 }: SearchProps) {
   return (
-    <InputGroup className="justify-content-center mb-3">
-      <DropdownButton
-        variant="outline-secondary"
-        title={selectedCategory}
-        id="input-group-dropdown-1"
-        onSelect={handleDropdownChange}
-      >
-        <Dropdown.Item eventKey="All">All</Dropdown.Item>
-        {uniqueCategoriesList &&
-          uniqueCategoriesList.map((category, i) => {
-            return (
-              <Dropdown.Item key={i} eventKey={category}>
-                {category}
-              </Dropdown.Item>
-            );
-          })}
-      </DropdownButton>
-      <Form.Control
-        type="text"
-        value={inputText}
-        placeholder="Search product..."
-        aria-label="Search product"
-        aria-describedby="basic-addon2"
-        onChange={handleInputChange}
-      />
-      <Button
-        onClick={handleProductSearch}
-        variant="outline-secondary"
-        id="button-addon2"
-      >
-        Search
-      </Button>
-    </InputGroup>
+    <Container className="justify-content-center mb-3">
+      <InputGroup>
+        <DropdownButton
+          variant="outline-secondary"
+          title={selectedCategory}
+          id="input-group-dropdown-1"
+          onSelect={handleDropdownChange}
+        >
+          <Dropdown.Item eventKey="All">All</Dropdown.Item>
+          {uniqueCategoriesList &&
+            uniqueCategoriesList.map((category, i) => {
+              return (
+                <Dropdown.Item key={i} eventKey={category}>
+                  {category}
+                </Dropdown.Item>
+              );
+            })}
+        </DropdownButton>
+        <Form.Control
+          type="text"
+          value={inputText}
+          placeholder="Search product..."
+          aria-label="Search product"
+          aria-describedby="basic-addon2"
+          onChange={handleInputChange}
+        />
+        <Button
+          onClick={handleProductSearch}
+          variant="outline-secondary"
+          id="button-addon2"
+        >
+          Search
+        </Button>
+      </InputGroup>
+    </Container>
   );
 }
 

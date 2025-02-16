@@ -5,15 +5,18 @@ type HookReturnType<T> = {
 };
 
 function useFetch<T>(url: string): HookReturnType<T> {
-  const [data, setData] = useState<T | null>(null);
+  var [data, setData] = useState<T | null>(null);
 
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const response = await fetch(url); //? Add conditions to the response if(!ok)...etc
-        const result = (await response.json()) as T;
-        console.log("result :>> ", result);
-        setData(result);
+        const response = await fetch(url);
+        if (!response.ok)
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        const result = await response.json();
+        const array = result.products as T;
+        console.log("array result :>> ", array);
+        setData(array);
       };
       fetchData();
     } catch (err) {

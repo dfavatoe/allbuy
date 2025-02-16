@@ -4,9 +4,11 @@ import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Container } from "react-bootstrap";
+import ModalAlert from "../components/ModalAlert";
 
 function Login() {
-  const { user, userData, login } = useContext(AuthContext);
+  const { user, profileUser, login, showAlert, setShowAlert, alertText } =
+    useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,10 +32,10 @@ function Login() {
     <>
       <Container>
         <h1>Login</h1>
-        {user && userData ? (
+        {user ? (
           <div>
             <h3>You are logged in. 🔌</h3>
-            <p>Hi, {userData.userName}! Welcome!</p>
+            <p>Hi {profileUser?.displayName}! Welcome!</p>
           </div>
         ) : (
           <p>Log in to access your account and continue shopping.</p>
@@ -95,6 +97,11 @@ function Login() {
             </>
           )}
         </Form>
+        <ModalAlert
+          showAlert={showAlert}
+          alertText={alertText}
+          setShowAlert={setShowAlert}
+        />
       </Container>
     </>
   );

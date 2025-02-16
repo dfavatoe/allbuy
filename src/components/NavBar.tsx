@@ -1,4 +1,4 @@
-import { MutableRefObject, useContext, useRef } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -8,7 +8,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 function NavBar() {
   //9. use the Context to get the content needed
-  const { user, logout } = useContext(AuthContext);
+  const { user, userData, logout } = useContext(AuthContext);
 
   return (
     <>
@@ -32,15 +32,30 @@ function NavBar() {
                   <NavDropdown.Item href="/signup">Sign up</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
-              <Container className="justify-content-end">
+              <div className="d-lg-flex justify-content-end align-items-center">
                 {user ? (
-                  <Button onClick={logout} variant="none">
-                    Log Out
-                  </Button>
+                  <>
+                    <div className="d-lg-inline-block">
+                      Hello {userData?.userName}!
+                    </div>
+                    <Button
+                      style={{ color: "orange" }}
+                      onClick={logout}
+                      variant="none"
+                    >
+                      <b>Log Out</b>
+                    </Button>
+                  </>
                 ) : (
-                  <Nav.Link href="/login">Hello, log in!</Nav.Link>
+                  <Nav.Link href="/login">
+                    Hello !
+                    <span style={{ color: "orange" }}>
+                      {" "}
+                      <b>Log in</b>{" "}
+                    </span>{" "}
+                  </Nav.Link>
                 )}
-              </Container>
+              </div>
             </Navbar.Collapse>
           </Container>
         </Navbar>

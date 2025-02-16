@@ -19,7 +19,8 @@ import {
 } from "react-bootstrap";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import ModalLogin from "../components/ModalLogin";
+import ModalLogin from "./ModalLogin";
+import "../style/styles.css";
 
 type ProductReviewsType = {
   author: string;
@@ -170,16 +171,12 @@ function ProductReviews({ pid }: ProductReviewsType) {
                     width: "auto",
                     height: "auto",
                     textAlign: "left",
-                    // boxShadow: "rgba(162, 162, 162, 0.2) 0px 8px 24px",
                     boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
                   }}
                 >
                   <Card.Body>
                     <Card.Title>{review.author}</Card.Title>
-                    {/* <Card.Subtitle className="mb-2">
-                      ProductID: {review.pid}
-                    </Card.Subtitle> */}
-                    <Card.Subtitle className="mb-2">
+                    <Card.Subtitle className="paint-stars mb-2">
                       {countStars(review.rating)}
                     </Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">
@@ -233,7 +230,9 @@ function ProductReviews({ pid }: ProductReviewsType) {
                 onChange={haldleReviewTextChange}
               />
             </FloatingLabel>
-            <Form.Label>Rating: {reviewStars} </Form.Label>
+            <Form.Label>
+              Rating: <span className="paint-stars">{reviewStars}</span>{" "}
+            </Form.Label>
             <Form.Range
               style={{ maxWidth: "250px" }}
               className="mb-4 d-block"

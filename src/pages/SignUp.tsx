@@ -4,11 +4,13 @@ import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Container } from "react-bootstrap";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
+import ModalAlert from "../components/ModalAlert";
 
 function SignUp() {
-  const { user, register } = useContext(AuthContext);
+  const { user, register, showAlert, setShowAlert, alertText } =
+    useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,7 +27,6 @@ function SignUp() {
   const handleSubmitRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // console.log("email, password :>> ", email, password)
-
     register(email, password);
   };
 
@@ -40,14 +41,6 @@ function SignUp() {
         verifiedEmail: false,
         userId: user.id,
       });
-
-      // const docRef = await addDoc(collection(db, "users"), newUser);
-      // if (!docRef) {
-      //   throw new Error("Something went wrong!");
-      // }
-      // if (docRef) {
-      //   console.log("Message sent succesfully. Document ID:  ", docRef.id);
-      // }
     }
   };
 
@@ -120,6 +113,11 @@ function SignUp() {
             </>
           )}
         </Form>
+        <ModalAlert
+          showAlert={showAlert}
+          alertText={alertText}
+          setShowAlert={setShowAlert}
+        />
       </Container>
     </>
   );

@@ -12,7 +12,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
-import TestCustomHook from "./pages/TestCustomHook";
+import TestCustomHook from "./Tests/TestCustomHook";
 import UserAccount from "./pages/UserAccount";
 import Products from "./pages/Products";
 
@@ -59,7 +59,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 ></Route>
-                <Route path="account" element={<UserAccount />} />
+                <Route
+                  path="account"
+                  element={
+                    <ProtectedRoute>
+                      <UserAccount />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="customhook" element={<TestCustomHook />}></Route>
                 <Route path="*" element={<AboutBlank />} />
               </Route>

@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { ProductT } from "../types/customTypes";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
-import ProductReviews from "./ProductReviews";
+import ProductReviews from "../components/ProductReviews";
 import { Timestamp } from "firebase/firestore";
 
 function SingleProductPage() {
   //State Hooks
   const [productSpecs, setProductSpecs] = useState<ProductT | null>(null);
+
+  const navigateTo = useNavigate();
 
   // UseRef Hook used to scroll the Page to the Reviews
   const topReviewsRef = useRef<HTMLHeadingElement | null>(null);
@@ -29,10 +31,13 @@ function SingleProductPage() {
   const getSingleProduct = async () => {
     const response = await fetch(url);
     console.log("response :>> ", response);
-    const result = (await response.json()) as ProductT;
-    console.log("single Product :>> ", result);
-
-    setProductSpecs(result);
+    if (!response.ok) {
+      navigateTo("/aboutblank");
+    } else {
+      const result = (await response.json()) as ProductT;
+      console.log("single Product :>> ", result);
+      setProductSpecs(result);
+    }
   };
 
   const countStars = (productRating: number | null) => {
@@ -43,24 +48,6 @@ function SingleProductPage() {
       const totalStars =
         fullStars.repeat(starInt) + emptyStars.repeat(5 - starInt);
       return totalStars;
-    }
-  };
-
-  const formatDate = (date: string | null) => {
-    if (date) {
-      const dateStr = date;
-      const dateObj = new Date(dateStr);
-      // console.log('dateObj :>> ', dateObj);
-
-      const options = {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      } as Intl.DateTimeFormatOptions;
-      const formattedDate = dateObj.toLocaleDateString("en-GB", options);
-      // console.log('formattedDate :>> ', formattedDate);
-      // console.log('formattedDate :>> ', typeof formattedDate);
-      return formattedDate;
     }
   };
 
@@ -98,7 +85,10 @@ function SingleProductPage() {
               <Col sm="6">
                 <h3>{productSpecs.title}</h3>
                 <p>
-                  {productSpecs.rating} {countStars(productSpecs.rating)}
+                  {productSpecs.rating}{" "}
+                  <span className="paint-stars">
+                    {countStars(productSpecs.rating)}
+                  </span>
                   <Button onClick={() => scrollCallback()} variant="link">
                     See the reviews
                   </Button>
@@ -122,19 +112,32 @@ function SingleProductPage() {
                 <hr />
                 <h5>Product Details:</h5>
                 <ul>
-                  <li>Shipping: {productSpecs.shippingInformation}</li>
-                  <li>Warranty: {productSpecs.warrantyInformation}</li>
-                  <li>Return policy: {productSpecs.returnPolicy}</li>
                   <li>
-                    Minimum Order: {productSpecs?.minimumOrderQuantity} items
+                    <b>Shipping:</b> {productSpecs.shippingInformation}
+                  </li>
+                  <li>
+                    <b>Warranty:</b> {productSpecs.warrantyInformation}
+                  </li>
+                  <li>
+                    <b>Return policy:</b> {productSpecs.returnPolicy}
+                  </li>
+                  <li>
+                    <b>Minimum Order: </b>
+                    {productSpecs?.minimumOrderQuantity} items
                   </li>
                 </ul>
                 <hr />
                 <h5>Dimensions:</h5>
                 <ul>
-                  <li>Width: {productSpecs.dimensions.width} cm</li>
-                  <li>Height: {productSpecs.dimensions.height} cm</li>
-                  <li>Depth: {productSpecs.dimensions.depth} cm</li>
+                  <li>
+                    <b>Width:</b> {productSpecs.dimensions.width} cm
+                  </li>
+                  <li>
+                    <b>Height:</b> {productSpecs.dimensions.height} cm
+                  </li>
+                  <li>
+                    <b>Depth:</b> {productSpecs.dimensions.depth} cm
+                  </li>
                 </ul>
                 <Button variant="warning">Add to cart</Button>
               </Col>
