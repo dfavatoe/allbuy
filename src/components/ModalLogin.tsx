@@ -2,20 +2,15 @@ import Form from "react-bootstrap/Form";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Button, Modal } from "react-bootstrap";
-import ModalSignUp from "./ModalSignUp";
 import { ModalLoginProps } from "../types/customTypes";
 import ModalAlert from "./ModalAlert";
+import { Link } from "react-router";
 
 function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
   const { user, profileUser, login, showAlert, setShowAlert, alertText } =
     useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  //Modal Hooks and functions
-  const [showSignUp, setSignUpShow] = useState(false);
-  const handleSignUpShow = () => setSignUpShow(true);
-  const handleSignUpClose = () => setSignUpShow(false);
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -52,7 +47,7 @@ function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
               <Form.Control
                 type="email"
                 name="email"
-                id="email"
+                id="login-email"
                 value={email}
                 onChange={handleEmailChange}
                 placeholder="Enter email"
@@ -64,7 +59,7 @@ function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
               <Form.Control
                 type="password"
                 name="password"
-                id="password"
+                id="login-password"
                 value={password}
                 onChange={handlePasswordChange}
                 placeholder="Password"
@@ -82,17 +77,7 @@ function ModalLogin({ showLogin, handleLoginClose }: ModalLoginProps) {
 
                 <div className="mb-2">Still not registered?</div>
 
-                <Button
-                  className="m-0"
-                  variant="link"
-                  onClick={handleSignUpShow}
-                >
-                  Sign Up
-                </Button>
-                <ModalSignUp
-                  handleSignUpClose={handleSignUpClose}
-                  showSignUp={showSignUp}
-                />
+                <Link to={"/signup"}>Sign Up</Link>
               </>
             )}
           </Form>

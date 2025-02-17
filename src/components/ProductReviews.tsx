@@ -21,6 +21,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import ModalLogin from "./ModalLogin";
 import "../style/styles.css";
+import ModalSignUp from "./ModalSignUp";
 
 type ProductReviewsType = {
   author: string;
@@ -44,6 +45,11 @@ function ProductReviews({ pid }: ProductReviewsType) {
   const [showLogin, setLoginShow] = useState(false);
   const handleLoginShow = () => setLoginShow(true);
   const handleLoginClose = () => setLoginShow(false);
+
+  //Modal SignUp Hooks and functions
+  const [showSignUp, setSignUpShow] = useState(false);
+  const handleSignUpShow = () => setSignUpShow(true);
+  const handleSignUpClose = () => setSignUpShow(false);
 
   const countStars = (productRating: number | null) => {
     if (productRating) {
@@ -207,6 +213,20 @@ function ProductReviews({ pid }: ProductReviewsType) {
                   }}
                 >
                   log in
+                </button>{" "}
+                or{" "}
+                <button
+                  onClick={handleSignUpShow}
+                  style={{
+                    background: "none",
+                    color: "blue",
+                    border: "none",
+                    padding: 0,
+                    outline: "none",
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  sign up.
                 </button>
               </p>
             </div>
@@ -215,6 +235,11 @@ function ProductReviews({ pid }: ProductReviewsType) {
           <ModalLogin
             handleLoginClose={handleLoginClose}
             showLogin={showLogin}
+          />
+
+          <ModalSignUp
+            handleSignUpClose={handleSignUpClose}
+            showSignUp={showSignUp}
           />
 
           <Form onSubmit={handleReviewSubmit}>

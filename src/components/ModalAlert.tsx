@@ -1,6 +1,4 @@
-import Form from "react-bootstrap/Form";
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import { ModalAlertProps } from "../types/customTypes";
 

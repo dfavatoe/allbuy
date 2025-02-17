@@ -30,6 +30,7 @@ function SignUp() {
     register(email, password);
   };
 
+  //Creates a user's document in Firestore
   const createUserDocument = async () => {
     if (user) {
       const docRef = doc(db, "users", user.id);
@@ -53,7 +54,7 @@ function SignUp() {
         {user ? (
           <div>
             <h3>
-              Congratulations, you have succesfully created an account!!! 🙌
+              Congratulations, you have successfully created an account!!! 🙌
             </h3>
           </div>
         ) : (
@@ -69,7 +70,7 @@ function SignUp() {
             <Form.Control
               type="email"
               name="email"
-              id="email"
+              id="signup-email"
               value={email}
               onChange={handleEmailChange}
               placeholder="Enter email"
@@ -81,7 +82,7 @@ function SignUp() {
             <Form.Control
               type="password"
               name="password"
-              id="password"
+              id="signup-password"
               value={password}
               onChange={handlePasswordChange}
               placeholder="Password"

@@ -68,7 +68,7 @@ function ModalSignUp({ showSignUp, handleSignUpClose }: ModalSignUpProps) {
             <Form.Control
               type="email"
               name="email"
-              id="email"
+              id="signup-email"
               value={email}
               onChange={handleEmailChange}
               placeholder="Enter email"
@@ -80,7 +80,7 @@ function ModalSignUp({ showSignUp, handleSignUpClose }: ModalSignUpProps) {
             <Form.Control
               type="password"
               name="password"
-              id="password"
+              id="signup-password"
               value={password}
               onChange={handlePasswordChange}
               placeholder="Password"

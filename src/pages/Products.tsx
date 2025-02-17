@@ -8,15 +8,11 @@ import useFetch from "../hooks/useFetch";
 
 function Products() {
   const [productsList, setProductsList] = useState<ProductT[] | null>(null);
-
   const [loading, setLoading] = useState(true);
-
   const [inputText, setInputText] = useState("");
-
   const [uniqueCategoriesList, setUniqueCategoriesList] = useState<
     string[] | null
   >(null);
-
   const [selectedCategory, setSelectedCategory] = useState<string | null>(
     "Category"
   );
@@ -51,18 +47,25 @@ function Products() {
   );
   // console.log("searchedProducts :>> ", searchedProducts);
 
-  // Fetches Categories list for Category's button
+  // Fetches Categories list for Category's button and menu bar
   const getCategoriesList = async () => {
-    const response = await fetch(url + categorySlug);
-    console.log("response :>> ", response);
-    const result = await response.json();
-    console.log("result :>> ", result);
-    const categoryArray = result as string[];
+    try {
+      const response = await fetch(url + categorySlug);
+      console.log("response :>> ", response);
+      const result = await response.json();
+      console.log("result :>> ", result);
+      const categoryArray = result as string[];
 
-    setUniqueCategoriesList(categoryArray);
+      setUniqueCategoriesList(categoryArray);
+    } catch {
+      (error: Error) => {
+        console.log("error: ", error);
+        throw error;
+      };
+    }
   };
 
-  // Fetches Products by Category
+  // Fetches Products by Category when category is selected
   const url2 = `https://dummyjson.com/products/category/${selectedCategory}`;
 
   const getProductsByCategory = async () => {
@@ -108,7 +111,7 @@ function Products() {
   //sets the products array filtering the searched word inside the selected category (combined)
   const handleProductSearch = () => {
     if (searchedProducts) {
-      const combinedSearchAndCategory = searchedProducts?.filter((product) => {
+      const combinedSearchAndCategory = searchedProducts.filter((product) => {
         return (
           selectedCategory === product.category || selectedCategory === "All"
         );

@@ -28,9 +28,9 @@ type AuthContextType = {
   showAlert: boolean;
   setShowAlert: Dispatch<React.SetStateAction<boolean>>;
   alertText: string;
-
-  // checkUserStatus: () => void;
 };
+
+//Define the types used ba user's data in Firestore
 type UserData = {
   city?: string | null;
   phoneNumber?: string | null;
@@ -41,8 +41,8 @@ type UserData = {
   zip?: string | null;
   userId?: string | null;
 };
-//6. Define initial value of contents shared by the Context
 
+//6. Define initial value of contents shared by the Context
 const contextInitialValue: AuthContextType = {
   user: null,
   profileUser: null,
@@ -68,7 +68,7 @@ const contextInitialValue: AuthContextType = {
 // 1. Create context
 export const AuthContext = createContext<AuthContextType>(contextInitialValue);
 
-//2. Create Provider (Contains the content)
+//2. Create Provider
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   // console.log("children :>> ", children);
   // console.log("auth :>> ", auth);
@@ -78,13 +78,11 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [profileUser, setProfileUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
-
-  //Modal Alert Hooks
   const [showAlert, setShowAlert] = useState(false);
   const [alertText, setAlertText] = useState("");
 
   const register = async (email: string, password: string) => {
-    console.log("email, password Auth :>>", email, password);
+    // console.log("email, password Auth :>>", email, password);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -116,7 +114,6 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         } else {
           throw new Error("User information not found");
         }
-        //But because we want it not null we use the if condition
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -127,16 +124,17 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       });
   };
 
+  //set the user's profile. Displays logged in or out.
   const checkUserStatus = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        const email = user.email; //Try to create an object for email and id??
+        const email = user.email;
         const id = user.uid;
         const currUser = auth.currentUser;
+        console.log("currUser :>> ", currUser);
         setProfileUser(currUser);
         if (email && id) {
-          console.log("email :>> ", email);
-
+          // console.log("email :>> ", email);
           setUser({ email, id });
         } else {
           throw new Error("User information not found");
@@ -149,11 +147,11 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     });
   };
 
-  //get user data from Firestore
+  //get user's data from Firestore
   const getUserData = async () => {
     //Get data from Firestore
     if (user) {
-      console.log("user :>> ", user);
+      // console.log("user :>> ", user);
       const docRef = doc(db, "users", user.id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -177,6 +175,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       .catch((error) => {
         // An error happened.
         console.log("Problems signing out user: ", error.message);
+        setAlertText(error.message);
+        setShowAlert(true);
       });
   };
 

@@ -1,14 +1,10 @@
 import { useContext } from "react";
-import { ProductsContext } from "../context/ProductsContext";
 import { AuthContext } from "../context/AuthContext";
 import "../style/Home.css";
 import { Button, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
 
 function Home() {
-  //use context to get the content
-  const { productsList } = useContext(ProductsContext);
-  // console.log("productsList :>> ", productsList);
   const { user, userData } = useContext(AuthContext);
 
   const navigateTo = useNavigate();
@@ -22,6 +18,7 @@ function Home() {
           width="100%"
           height="auto"
           autoPlay
+          loop
           muted
         >
           <source
@@ -46,7 +43,7 @@ function Home() {
         <Link to={"/login"}>Login</Link>
         <br />
         <Button
-          className="mt-4"
+          className="mt-2 mb-2"
           variant="warning"
           onClick={() => {
             navigateTo("products");

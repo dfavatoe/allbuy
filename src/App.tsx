@@ -12,7 +12,6 @@ import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { db } from "./config/firebaseConfig";
 import Reviews from "./pages/Reviews";
-import TestCustomHook from "./Tests/TestCustomHook";
 import UserAccount from "./pages/UserAccount";
 import Products from "./pages/Products";
 
@@ -30,13 +29,13 @@ const Root = () => {
   );
 };
 
-//8. Use the Provider as a wrapper to the necessary routes
 function App() {
   // console.log("app :>> ", app);
   // console.log("auth :>> ", auth);
   console.log("db :>> ", db);
   return (
     <>
+      {/* The Providers are wrappers to the necessary routes */}
       <AuthContextProvider>
         <ProductsContextProvider>
           <BrowserRouter>
@@ -45,6 +44,7 @@ function App() {
               <Route element={<Root />}>
                 <Route index element={<Home />} />
                 <Route path="/products" element={<Products />} />
+                {/* "dynamic segment" will be parsed from the URL and provided as params to other router APIs. */}
                 <Route
                   path="/products/:productId"
                   element={<SingleProductPage />}
@@ -67,7 +67,6 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="customhook" element={<TestCustomHook />}></Route>
                 <Route path="*" element={<AboutBlank />} />
               </Route>
             </Routes>
