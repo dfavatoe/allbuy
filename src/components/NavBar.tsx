@@ -24,12 +24,12 @@ function NavBar() {
                 navbarScroll
               >
                 <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="products">Products</Nav.Link>
-                <Nav.Link href="reviews">Reviews</Nav.Link>
-                <Nav.Link href="account">Account</Nav.Link>
+                <Nav.Link href="/products">Products</Nav.Link>
+                <Nav.Link href="/reviews">Reviews</Nav.Link>
+                <Nav.Link href="/account">Account</Nav.Link>
                 <NavDropdown title="Register" id="navbarScrollingDropdown">
-                  <NavDropdown.Item href="login">Login</NavDropdown.Item>
-                  <NavDropdown.Item href="signup">Sign up</NavDropdown.Item>
+                  <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                  <NavDropdown.Item href="/signup">Sign up</NavDropdown.Item>
                 </NavDropdown>
               </Nav>
               <div className="d-lg-flex justify-content-end align-items-center">
