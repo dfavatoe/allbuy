@@ -1,6 +1,6 @@
-import { User } from "../types/customTypes";
+import { UserT } from "../types/customTypes";
 
-const isUserLogged = (user: User | null) => {
+const isUserLogged = (user: UserT | null) => {
   const isAuthenticated = user ? true : false;
   return isAuthenticated;
 };
