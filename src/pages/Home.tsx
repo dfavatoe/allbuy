@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import "../style/Home.css";
 import { Button, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router";
+import video from "../../public/electronics_video.mp4";
 
 function Home() {
   const { user, userData } = useContext(AuthContext);
@@ -21,10 +22,7 @@ function Home() {
           loop
           muted
         >
-          <source
-            src="../src/assets/electronics_video.mp4"
-            type="video/mp4"
-          ></source>
+          <source src={video} type="video/mp4"></source>
         </video>
         <Container id="text-container" fluid>
           <h1 aria-label="allBuy has">
