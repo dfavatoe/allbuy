@@ -1,50 +1,23 @@
 .zoom {
-    transition: transform .2s; /* Animation */
-    margin: 0 auto;
-  }
+  transition: transform 0.2s; /* Animation */
+  margin: 0 auto;
+}
 
-  .zoom:hover {
-    transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-  }
+.zoom:hover {
+  transform: scale(
+    1.05
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
 
-  .card {
-    margin: 20px;
-    height: 470px;
-  }
-  
-  /* Slide in Overla from the bottom */
-  .image {
-    display: block;
-    width: 100%;
-    height: auto;
-    background-color: lightgrey;
-  
-  }
-  
-  /* .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #008CBA;
-    overflow: hidden;
-    width: 100%;
-    height: 50%;
-    transition: .5s ease;
-  }
-  
-  .card:hover .overlay {
-    height: 100%;
-  }
-  
-  .text {
-    color: white;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    text-align: center;
-  } */
+.card {
+  margin: 20px;
+  height: 470px;
+}
+
+/* Slide in Overla from the bottom */
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+  background-color: lightgrey;
+}

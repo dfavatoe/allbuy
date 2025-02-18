@@ -8,7 +8,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 
 function NavBar() {
   //9. use the Context to get the content needed
-  const { user, userData, logout } = useContext(AuthContext);
+  const { user, profileUser, logout } = useContext(AuthContext);
 
   return (
     <>
@@ -36,7 +36,7 @@ function NavBar() {
                 {user ? (
                   <>
                     <div className="d-lg-inline-block">
-                      Hello {userData?.userName}!
+                      Hello {profileUser?.displayName}!
                     </div>
                     <Button
                       style={{ color: "orange" }}
@@ -48,7 +48,7 @@ function NavBar() {
                   </>
                 ) : (
                   <Nav.Link href="/login">
-                    Hello !
+                    Hello!
                     <span style={{ color: "orange" }}>
                       {" "}
                       <b>Log in</b>{" "}
