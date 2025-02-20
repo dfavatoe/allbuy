@@ -4,10 +4,20 @@ import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
 import { updateProfile } from "firebase/auth";
+import ModalAlert from "../components/ModalAlert";
 
 function UserAccount() {
-  const { user, userData, profileUser, getUserData, loading } =
-    useContext(AuthContext);
+  const {
+    user,
+    userData,
+    profileUser,
+    getUserData,
+    loading,
+    setShowAlert,
+    showAlert,
+  } = useContext(AuthContext);
+
+  const [alertText, setAlertText] = useState("");
 
   const [newUserName, setNewUserName] = useState("");
   const [newUserPhotoUrl, setNewUserPhotoUrl] = useState("");
@@ -34,6 +44,11 @@ function UserAccount() {
         // phoneNumber: "",
       });
       getUserData();
+    }
+    if ((newUserName && newUserPhotoUrl) === "") {
+      setAlertText("Please fill in the name and photo fields");
+      setShowAlert(true);
+      // alert("Please fill in the name and photo fields");
     }
   };
   console.log("Data updated!", userData);
@@ -141,6 +156,11 @@ function UserAccount() {
           </Row>
         </Form>
       )}
+      <ModalAlert
+        showAlert={showAlert}
+        alertText={alertText}
+        setShowAlert={setShowAlert}
+      />
     </Container>
   );
 }
