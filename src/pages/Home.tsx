@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router";
 import video from "../../public/electronics_video.mp4";
 
 function Home() {
-  const { user, userData } = useContext(AuthContext);
+  const { user, profileUser } = useContext(AuthContext);
 
   const navigateTo = useNavigate();
 
@@ -33,8 +33,8 @@ function Home() {
       </Container>
       <Container className="d-block">
         <h2>Welcome to allBuy</h2>
-        {user && userData ? (
-          <h6>Hello {userData.userName}!</h6>
+        {user && profileUser ? (
+          <h6>Hello {profileUser.displayName}!</h6>
         ) : (
           <h6>Sign in for the full experience.</h6>
         )}
